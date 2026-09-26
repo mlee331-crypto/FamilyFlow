@@ -205,7 +205,7 @@ async function loadData(){
   state.balances={};state.moneyBalances={};state.minuteBalances={};for(const b of balancesR.data||[]){state.balances[b.child_id]=Number(b.balance||0);state.moneyBalances[b.child_id]=Number(b.money_balance||0);state.minuteBalances[b.child_id]=Number(b.minutes_balance||0)}
   await ensureTodayCompletions();
   const [compR,ledgerR,redR]=await Promise.all([
-   sb.from('chore_completions').select('*').eq('family_id',fid).gte('due_date',new Date(Date.now()-14*86400000).toISOString().slice(0,10)).order('due_date',{ascending:false}),
+   sb.from('chore_completions').select('*').eq('family_id',fid).gte('due_date',new Date(Date.now()-90*86400000).toISOString().slice(0,10)).order('due_date',{ascending:false}),
    sb.from('reward_transactions').select('*').eq('family_id',fid).order('created_at',{ascending:false}).limit(150),
    sb.from('tablet_redemptions').select('*').eq('family_id',fid).order('requested_at',{ascending:false}).limit(100)
   ]);
@@ -399,9 +399,54 @@ async function saveChoreRewards(id){
 }
 
 
+
+function parentReports(){
+ const approved=state.completions.filter(x=>x.status==='approved').sort((a,b)=>String(b.reviewed_at||b.due_date).localeCompare(String(a.reviewed_at||a.due_date))).slice(0,80);
+ const txs=(state.ledger||[]).slice(0,100);
+ return `<div class="row between"><div><h1>Reports & History</h1><p>Review past approvals and account activity. Undoing an approval reverses its reward instead of deleting history.</p></div></div>
+ <div class="section-head"><h2>Past approvals</h2><span class="tag blue">${approved.length} shown</span></div>
+ ${approved.length?`<div class="card tablewrap"><table class="table"><thead><tr><th>Date</th><th>Child</th><th>Chore</th><th>Reward</th><th></th></tr></thead><tbody>${approved.map(x=>{const c=child(x.child_id),ch=chore(x.chore_id),unit=x.selected_reward_unit||rewardUnitFor(ch,c),amt=Number(x.selected_reward_amount??ch?.reward_amount??0);return `<tr><td>${esc(x.due_date)}</td><td>${esc(c?.name||'Child')}</td><td><b>${esc(ch?.name||'Chore')}</b></td><td>${amt?esc(unit==='money'?money(amt):`${Math.round(amt)} min`):'—'}</td><td><button class="secondary danger" onclick="undoApprovalConfirm('${x.id}')">Undo approval</button></td></tr>`}).join('')}</tbody></table></div>`:`<div class="card empty">No approved chores in the last 90 days.</div>`}
+ <div class="section-head"><h2>Recent reward activity</h2></div>
+ ${txs.length?`<div class="card tablewrap"><table class="table"><thead><tr><th>Date</th><th>Child</th><th>Reason</th><th>Amount</th></tr></thead><tbody>${txs.map(t=>{const c=child(t.child_id),unit=t.reward_unit||'minutes',amt=Number(t.amount||0);return `<tr><td>${esc(String(t.created_at||'').slice(0,10))}</td><td>${esc(c?.name||'Child')}</td><td>${esc(t.reason||t.transaction_type||'Adjustment')}</td><td class="${amt>=0?'ledger-pos':'ledger-neg'}">${amt>=0?'+':''}${esc(unit==='money'?money(amt):`${Math.round(amt)} min`)}</td></tr>`}).join('')}</tbody></table></div>`:`<div class="card empty">No reward activity yet.</div>`}`;
+}
+
+function undoApprovalConfirm(id){
+ const x=state.completions.find(c=>c.id===id),c=child(x?.child_id),ch=chore(x?.chore_id);
+ modal(`<h2>Undo this approval?</h2><p><b>${esc(c?.name||'Child')} — ${esc(ch?.name||'Chore')}</b></p><div class="notice" style="margin-top:14px">The chore will return to To Do and the approved reward will be reversed. The original approval stays in the audit history.</div><button class="secondary danger" style="width:100%;margin-top:16px" onclick="undoApproval('${id}')">Undo approval</button>`);
+}
+async function undoApproval(id){
+ const {error}=await sb.rpc('undo_chore_approval',{target_completion:id});
+ if(error)return toast(errText(error));
+ closeModal();toast('Approval undone and reward reversed');
+ await loadData();state.view='parent';state.parentUnlocked=true;state.parentTab='reports';render();
+}
+
+function resetChildModal(id){
+ const c=child(id);if(!c)return;
+ const moneyBal=money(balance(id,'money')),minBal=Math.round(balance(id,'minutes'));
+ modal(`<h2>Reset ${esc(c.name)}</h2><p>Choose exactly what you want to reset.</p>
+ <div class="grid" style="margin-top:16px">
+   <button class="secondary" onclick="runChildReset('${id}','today')"><b>Reset today’s chores</b><div class="small muted" style="margin-top:4px">Returns today’s chores to To Do and reverses any rewards approved today.</div></button>
+   ${c.reward_type!=='minutes'?`<button class="secondary" onclick="runChildReset('${id}','money')"><b>Reset money balance (${moneyBal})</b><div class="small muted" style="margin-top:4px">Sets the current money balance to $0 without erasing history.</div></button>`:''}
+   ${c.reward_type!=='money'?`<button class="secondary" onclick="runChildReset('${id}','minutes')"><b>Reset screen time (${minBal} min)</b><div class="small muted" style="margin-top:4px">Sets the current screen-time balance to 0 without erasing history.</div></button>`:''}
+   ${c.reward_type==='both'?`<button class="secondary danger" onclick="runChildReset('${id}','all')"><b>Reset both balances</b><div class="small muted" style="margin-top:4px">Sets both money and screen-time balances to zero.</div></button>`:''}
+ </div><p class="small muted" style="margin-top:14px">Resets use reversing ledger entries so you still have a record of what happened.</p>`);
+}
+async function runChildReset(id,kind){
+ let error=null;
+ if(kind==='today'){
+   ({error}=await sb.rpc('reset_child_day',{target_child:id,target_date:today()}));
+ }else{
+   ({error}=await sb.rpc('reset_child_balances',{target_child:id,target_unit:kind}));
+ }
+ if(error)return toast(errText(error));
+ closeModal();toast(kind==='today'?'Today reset':'Balance reset');
+ await loadData();state.view='parent';state.parentUnlocked=true;state.parentTab='settings';render();
+}
+
 function parentSettings(){
  const s=state.settings||{};
- const childRows=(state.allChildren||[]).map(c=>`<tr><td><b>${esc(c.name)}</b><div class="small muted">Age ${c.age}</div></td><td>${rewardModeLabel(c.reward_type)}${Number(c.weekly_screen_minutes||0)>0?`<div class="small muted">${Math.round(Number(c.weekly_screen_minutes)/60*10)/10} hr screen/week</div>`:''}${Number(c.weekly_money_allowance||0)>0?`<div class="small muted">${money(c.weekly_money_allowance)}/week</div>`:''}</td><td><span class="tag ${c.active?'good':'bad'}">${c.active?'ACTIVE':'REMOVED'}</span></td><td><div class="row">${c.active?`<button class="primary" onclick="adjustRewardModal('${c.id}')">+ Reward</button><button class="secondary" onclick="rewardSettingsModal('${c.id}')">Rewards</button><button class="secondary" onclick="resetKidPin('${c.id}')">Reset PIN</button><button class="secondary danger" onclick="manageChildConfirm('${c.id}',false)">Remove</button>`:`<button class="secondary" onclick="manageChildConfirm('${c.id}',true)">Restore</button>`}</div></td></tr>`).join('');
+ const childRows=(state.allChildren||[]).map(c=>`<tr><td><b>${esc(c.name)}</b><div class="small muted">Age ${c.age}</div></td><td>${rewardModeLabel(c.reward_type)}${Number(c.weekly_screen_minutes||0)>0?`<div class="small muted">${Math.round(Number(c.weekly_screen_minutes)/60*10)/10} hr screen/week</div>`:''}${Number(c.weekly_money_allowance||0)>0?`<div class="small muted">${money(c.weekly_money_allowance)}/week</div>`:''}</td><td><span class="tag ${c.active?'good':'bad'}">${c.active?'ACTIVE':'REMOVED'}</span></td><td><div class="row">${c.active?`<button class="primary" onclick="adjustRewardModal('${c.id}')">+ Reward</button><button class="secondary" onclick="rewardSettingsModal('${c.id}')">Rewards</button><button class="secondary" onclick="resetChildModal('${c.id}')">Reset</button><button class="secondary" onclick="resetKidPin('${c.id}')">Reset PIN</button><button class="secondary danger" onclick="manageChildConfirm('${c.id}',false)">Remove</button>`:`<button class="secondary" onclick="manageChildConfirm('${c.id}',true)">Restore</button>`}</div></td></tr>`).join('');
  const choreRows=state.chores.map(ch=>{const assigned=state.assignments.filter(a=>a.chore_id===ch.id),names=assigned.map(a=>child(a.child_id)?.name).filter(Boolean).join(', '),c=assigned.length?child(assigned[0].child_id):null;return `<tr><td><b>${esc(ch.name)}</b><div class="small muted">${esc(ch.category||'')}</div></td><td>${esc(names||'Unassigned')}</td><td>${esc(ch.chore_type)}<div class="small muted">${esc(choreRewardLabel(ch,c))}</div></td><td><span class="tag ${ch.active?'good':'bad'}">${ch.active?'ACTIVE':'REMOVED'}</span></td><td><div class="row"><button class="secondary" onclick="editChoreRewardsModal('${ch.id}')">Rewards</button>${ch.active?`<button class="secondary danger" onclick="manageChoreConfirm('${ch.id}',false)">Remove</button>`:`<button class="secondary" onclick="manageChoreConfirm('${ch.id}',true)">Restore</button>`}</div></td></tr>`}).join('');
  return `<h1>Settings</h1><p>Family defaults, security, kids, rewards, and chore management.</p>
  <div class="grid cols-2" style="margin-top:16px">
@@ -418,7 +463,7 @@ async function saveSettings(){const {error}=await sb.from('family_settings').upd
 async function changeParentPin(){const pin=$('newParentPin').value.trim();const {error}=await sb.rpc('set_parent_pin',{target_family:state.family.id,new_pin:pin});if(error)return toast(errText(error));toast('Parent PIN changed');$('newParentPin').value=''}
 
 function render(){const root=$('app');if(state.loading){root.innerHTML='<div class="spinner"></div>';return}if(state.recovery&&state.session){root.innerHTML=recoveryView();return}if(!state.session){root.innerHTML=loginView();return}if(!state.family){root.innerHTML=onboardingView();return}if(!state.hasParentPin){root.innerHTML=parentPinSetupView();return}root.innerHTML=state.view==='kid'&&state.kidId?kidView():state.view==='parent'&&state.parentUnlocked?parentView():familyView()}
-Object.assign(window,{signIn,signUp,signOut,forgotPassword,sendPasswordReset,saveNewPassword,finishParentPinSetup,createFamily,closeModal,kidPin,verifyKid,exitKid,kidTab,markDone,submitChoreRewardChoice,dismissRejectedNotice,requestMinutes,claimBonus,parentPin,resetParentPinModal,saveResetParentPin,verifyParent,exitParent,parentTab,approveCompletion,rejectCompletion,approveRedemption,rejectRedemption,addChildModal,addChild,rewardSettingsModal,saveChildRewardSettings,adjustRewardModal,prefillAdjustment,saveRewardAdjustment,resetKidPin,saveKidPin,manageChildConfirm,setChildActive,manageChoreConfirm,setChoreActive,editChoreRewardsModal,saveChoreRewards,setLibrarySearch,assignLibrary,saveLibraryAssignment,customChoreModal,saveCustomChore,syncRewardUnit,syncDualRewardFields,saveSettings,changeParentPin});
+Object.assign(window,{signIn,signUp,signOut,forgotPassword,sendPasswordReset,saveNewPassword,finishParentPinSetup,createFamily,closeModal,kidPin,verifyKid,exitKid,kidTab,markDone,submitChoreRewardChoice,dismissRejectedNotice,requestMinutes,claimBonus,parentPin,resetParentPinModal,saveResetParentPin,verifyParent,exitParent,parentTab,approveCompletion,rejectCompletion,approveRedemption,rejectRedemption,undoApprovalConfirm,undoApproval,resetChildModal,runChildReset,addChildModal,addChild,rewardSettingsModal,saveChildRewardSettings,adjustRewardModal,prefillAdjustment,saveRewardAdjustment,resetKidPin,saveKidPin,manageChildConfirm,setChildActive,manageChoreConfirm,setChoreActive,editChoreRewardsModal,saveChoreRewards,setLibrarySearch,assignLibrary,saveLibraryAssignment,customChoreModal,saveCustomChore,syncRewardUnit,syncDualRewardFields,saveSettings,changeParentPin});
 if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
 init();
 </script>
