@@ -150,6 +150,10 @@ function choreRewardValues(ch){
  if(!minutes&&!moneyAmount&&Number(ch?.reward_amount||0)>0){
    if((ch.reward_unit||'minutes')==='money')moneyAmount=Number(ch.reward_amount||0);else minutes=Number(ch.reward_amount||0);
  }
+ // Dual-reward default: $1 = 2 minutes. If only one side is configured,
+ // FamilyFlow can still offer both choices to a Money + Screen Time child.
+ if(minutes<=0&&moneyAmount>0)minutes=Math.round(moneyAmount*2);
+ if(moneyAmount<=0&&minutes>0)moneyAmount=Math.round((minutes/2)*100)/100;
  return {minutes,money:moneyAmount};
 }
 function choreRewardLabel(ch,c){
