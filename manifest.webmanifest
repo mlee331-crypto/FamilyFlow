@@ -1,0 +1,9 @@
+{
+  "name": "FamilyFlow \u2014 Chores & Rewards",
+  "short_name": "FamilyFlow",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f5f7fb",
+  "theme_color": "#1f6feb",
+  "description": "Family chores, responsibilities, allowance, tablet-time rewards, approvals, and progress."
+}
