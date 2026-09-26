@@ -12,6 +12,20 @@
 <style>
 :root{--bg:#f5f7fb;--card:#fff;--ink:#152033;--muted:#667085;--line:#e6eaf0;--accent:#1f6feb;--accent2:#7c3aed;--good:#16803c;--warn:#b54708;--bad:#b42318;--shadow:0 8px 28px rgba(31,45,61,.08);--radius:22px}
 *{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}button,input,select{font:inherit}button{cursor:pointer}.app{max-width:1180px;margin:auto;min-height:100vh;padding-bottom:94px}.topbar{position:sticky;top:0;z-index:20;background:rgba(245,247,251,.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(230,234,240,.9);padding:12px 16px;display:flex;align-items:center;gap:10px}.brand{font-weight:900;letter-spacing:-.04em;font-size:21px;white-space:nowrap}.brand span{color:var(--accent)}.spacer{flex:1}.mode-btn,.pill-btn,.icon-btn{border:1px solid var(--line);background:#fff;border-radius:14px;padding:10px 12px;color:var(--ink);font-weight:700}.mode-btn.active{background:var(--ink);color:#fff;border-color:var(--ink)}main{padding:18px 16px 30px}h1{font-size:31px;line-height:1.05;margin:6px 0 6px;letter-spacing:-.04em}h2{font-size:22px;margin:0 0 12px;letter-spacing:-.025em}h3{font-size:16px;margin:0}p{margin:0;color:var(--muted)}.grid{display:grid;gap:14px}.grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid.cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:17px}.stat{padding:14px}.stat b{font-size:25px;display:block;margin-top:5px}.muted{color:var(--muted)}.small{font-size:12px}.hero{padding:18px;background:linear-gradient(135deg,#eef5ff,#f4efff)}.progress{height:10px;background:#e9edf4;border-radius:99px;overflow:hidden}.progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px}.kid-card{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center}.avatar{width:54px;height:54px;border-radius:18px;display:grid;place-items:center;background:#eef4ff;color:var(--accent);font-weight:900;font-size:20px}.balance{font-weight:900;font-size:20px;text-align:right}.tag{display:inline-flex;align-items:center;gap:6px;border-radius:99px;padding:6px 9px;background:#f0f3f7;color:#475467;font-size:12px;font-weight:800}.tag.good{background:#eaf8ef;color:var(--good)}.tag.warn{background:#fff3e7;color:var(--warn)}.tag.bad{background:#ffefed;color:var(--bad)}.tag.blue{background:#edf4ff;color:var(--accent)}.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:22px 0 10px}.task{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}.task:first-child{border-top:0;padding-top:0}.task-title{font-weight:850;margin-bottom:5px}.reward{font-weight:900;color:var(--good)}.done-btn,.primary{border:0;border-radius:15px;background:var(--accent);color:#fff;font-weight:850;padding:12px 16px;min-height:46px}.secondary{border:1px solid var(--line);border-radius:15px;background:#fff;color:var(--ink);font-weight:800;padding:11px 14px;min-height:44px}.danger{border-color:#f5c2bd;color:var(--bad);background:#fff6f5}.success{background:var(--good)}.reject{background:#fff;color:var(--bad);border:1px solid #f0b9b5}.pending{background:#fff7ed;border:1px solid #fed7aa}.big-balance{font-size:42px;font-weight:950;letter-spacing:-.05em;margin:4px 0}.bottomnav{position:fixed;z-index:30;left:0;right:0;bottom:0;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:7px 8px calc(7px + env(safe-area-inset-bottom));display:flex;justify-content:center}.bottomnav .navwrap{width:min(100%,900px);display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px}.navitem{border:0;background:transparent;border-radius:12px;padding:8px 5px;color:#667085;font-weight:800;font-size:11px}.navitem span{display:block;font-size:19px;margin-bottom:2px}.navitem.active{background:#edf4ff;color:var(--accent)}.toolbar{display:grid;grid-template-columns:1fr auto auto;gap:8px}.search,.select,.input{width:100%;border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px 13px;outline:none}.library{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.libcard{border:1px solid var(--line);border-radius:17px;padding:14px;background:#fff}.modalback{position:fixed;z-index:100;inset:0;background:rgba(17,24,39,.45);display:grid;place-items:end center}.modal{width:min(100%,650px);max-height:90vh;overflow:auto;background:#fff;border-radius:26px 26px 0 0;padding:20px 18px calc(28px + env(safe-area-inset-bottom));box-shadow:0 -15px 60px rgba(0,0,0,.2)}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}label{font-size:12px;font-weight:800;color:#475467}label input,label select{margin-top:6px}.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.row.between{justify-content:space-between}.divider{height:1px;background:var(--line);margin:15px 0}.empty{padding:28px;text-align:center;color:var(--muted)}.tablewrap{overflow:auto}.table{width:100%;border-collapse:collapse}.table th,.table td{text-align:left;padding:11px 8px;border-bottom:1px solid var(--line);font-size:13px}.table th{color:#667085;font-size:11px;text-transform:uppercase;letter-spacing:.05em}.ledger-pos{color:var(--good);font-weight:900}.ledger-neg{color:var(--bad);font-weight:900}.login{max-width:460px;margin:8vh auto 0}.pin{font-size:26px;letter-spacing:.32em;text-align:center;font-weight:900}.notice{border-radius:14px;padding:11px 12px;background:#eef5ff;color:#264c87;font-size:13px}.error{background:#fff0ef;color:#9b1c13}.toast{position:fixed;z-index:200;left:50%;bottom:95px;transform:translateX(-50%);background:#111827;color:#fff;border-radius:99px;padding:10px 15px;font-weight:800;font-size:13px;box-shadow:var(--shadow)}.spinner{width:34px;height:34px;border:4px solid #dce6f7;border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite;margin:20vh auto}@keyframes spin{to{transform:rotate(360deg)}}
+
+.fun-pop{position:fixed;z-index:600;inset:0;pointer-events:none;display:grid;place-items:center}
+.fun-pop-card{padding:18px 24px;border-radius:24px;background:rgba(17,24,39,.92);color:#fff;font-weight:950;font-size:26px;letter-spacing:-.03em;box-shadow:0 18px 50px rgba(0,0,0,.28);animation:funPop .9s ease both}
+@keyframes funPop{0%{transform:scale(.35) rotate(-4deg);opacity:0}35%{transform:scale(1.12) rotate(2deg);opacity:1}75%{transform:scale(1)}100%{transform:scale(.92);opacity:0}}
+.confetti-bit{position:fixed;z-index:590;width:10px;height:15px;border-radius:3px;pointer-events:none;will-change:transform,opacity}
+.reject-notice{position:fixed;z-index:650;inset:0;background:rgba(17,24,39,.72);display:grid;place-items:center;padding:18px}
+.reject-card{width:min(100%,520px);background:#fff;border-radius:28px;padding:24px;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.3)}
+.reject-thumb{font-size:68px;line-height:1;margin-bottom:8px;animation:thumbDrop .55s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes thumbDrop{0%{transform:translateY(-30px) scale(.5);opacity:0}100%{transform:translateY(0) scale(1);opacity:1}}
+.reject-list{text-align:left;margin:16px 0;background:#fff4f2;border:1px solid #ffd7d2;border-radius:16px;padding:12px 14px}
+.reject-item{padding:9px 0;border-bottom:1px solid #f2c8c3;font-weight:850;color:#8f1d16}
+.reject-item:last-child{border-bottom:0}
+@media (prefers-reduced-motion:reduce){.fun-pop-card,.reject-thumb{animation:none}.confetti-bit{display:none}}
+
 @media(max-width:760px){.grid.cols-4,.grid.cols-3{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.cols-2{grid-template-columns:1fr}.library{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr}h1{font-size:27px}.topbar .mode-btn{padding:9px 10px;font-size:12px}}
 @media(max-width:430px){main{padding-left:12px;padding-right:12px}.card{padding:14px;border-radius:18px}.kid-card{grid-template-columns:auto 1fr}.kid-card .balance{grid-column:1/-1;text-align:left}.formgrid{grid-template-columns:1fr}}
 </style>
@@ -34,6 +48,79 @@ const rewardModeLabel=mode=>mode==='both'?'Money + screen time':mode==='money'?'
 const state={session:null,user:null,family:null,settings:null,hasParentPin:true,children:[],allChildren:[],balances:{},moneyBalances:{},minuteBalances:{},chores:[],assignments:[],completions:[],ledger:[],redemptions:[],library:[],badges:[],streaks:[],view:'family',kidId:null,parentUnlocked:false,parentTab:'home',kidTab:'today',loading:true,librarySearch:'',recovery:(location.hash.includes('type=recovery')||location.search.includes('type=recovery'))};
 
 function toast(msg){document.querySelector('.toast')?.remove();const d=document.createElement('div');d.className='toast';d.textContent=msg;document.body.appendChild(d);setTimeout(()=>d.remove(),2600)}
+
+let funAudioCtx=null;
+function ensureFunAudio(){
+ try{
+  if(!funAudioCtx)funAudioCtx=new (window.AudioContext||window.webkitAudioContext)();
+  if(funAudioCtx.state==='suspended')funAudioCtx.resume();
+ }catch(e){}
+ return funAudioCtx;
+}
+function tone(ctx,freq,start,duration,type='sine',volume=.055){
+ const o=ctx.createOscillator(),g=ctx.createGain();
+ o.type=type;o.frequency.setValueAtTime(freq,start);
+ g.gain.setValueAtTime(.0001,start);g.gain.exponentialRampToValueAtTime(volume,start+.018);
+ g.gain.exponentialRampToValueAtTime(.0001,start+duration);
+ o.connect(g).connect(ctx.destination);o.start(start);o.stop(start+duration+.02);
+}
+function playCheerSound(){
+ const ctx=ensureFunAudio();if(!ctx)return;
+ const t=ctx.currentTime+.02;
+ [523.25,659.25,783.99,1046.5].forEach((f,i)=>tone(ctx,f,t+i*.07,.22,'triangle',.045));
+ try{
+  const len=Math.floor(ctx.sampleRate*.38),buf=ctx.createBuffer(1,len,ctx.sampleRate),data=buf.getChannelData(0);
+  for(let i=0;i<len;i++)data[i]=(Math.random()*2-1)*(1-i/len);
+  const src=ctx.createBufferSource(),gain=ctx.createGain(),filter=ctx.createBiquadFilter();
+  filter.type='bandpass';filter.frequency.value=1500;filter.Q.value=.7;
+  gain.gain.setValueAtTime(.0001,t);gain.gain.linearRampToValueAtTime(.022,t+.04);gain.gain.exponentialRampToValueAtTime(.0001,t+.38);
+  src.buffer=buf;src.connect(filter).connect(gain).connect(ctx.destination);src.start(t);src.stop(t+.4);
+ }catch(e){}
+}
+function playRejectedSound(){
+ const ctx=ensureFunAudio();if(!ctx)return;
+ const t=ctx.currentTime+.02;
+ [392,330,262,196,147].forEach((f,i)=>tone(ctx,f,t+i*.115,.15,'square',.035));
+}
+function confettiBurst(){
+ if(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches)return;
+ const count=86,cx=innerWidth/2,cy=Math.min(innerHeight*.42,380);
+ for(let i=0;i<count;i++){
+  const p=document.createElement('div');p.className='confetti-bit';
+  p.style.left=cx+'px';p.style.top=cy+'px';p.style.background=`hsl(${Math.floor(Math.random()*360)} 85% 56%)`;
+  document.body.appendChild(p);
+  const angle=Math.random()*Math.PI*2,speed=120+Math.random()*340;
+  const dx=Math.cos(angle)*speed,dy=Math.sin(angle)*speed+180+Math.random()*220,rot=(Math.random()*1000-500);
+  const a=p.animate([
+   {transform:'translate(-50%,-50%) scale(.4) rotate(0deg)',opacity:1},
+   {transform:`translate(calc(-50% + ${dx}px),calc(-50% + ${dy}px)) scale(1) rotate(${rot}deg)`,opacity:0}
+  ],{duration:900+Math.random()*800,easing:'cubic-bezier(.12,.65,.25,1)',fill:'forwards'});
+  a.onfinish=()=>p.remove();
+ }
+}
+function celebrateChore(choreId){
+ playCheerSound();confettiBurst();
+ const ch=chore(choreId),d=document.createElement('div');d.className='fun-pop';
+ d.innerHTML=`<div class="fun-pop-card">🎉 GREAT JOB!${ch?.name?`<div style="font-size:13px;font-weight:750;margin-top:5px;opacity:.85">${esc(ch.name)}</div>`:''}</div>`;
+ document.body.appendChild(d);setTimeout(()=>d.remove(),1050);
+}
+function showRejectedNotice(childId){
+ const unseen=state.completions.filter(x=>x.child_id===childId&&x.status==='rejected'&&!x.kid_notified_at);
+ if(!unseen.length)return;
+ playRejectedSound();
+ const ids=unseen.map(x=>x.id),d=document.createElement('div');d.id='rejectNotice';d.className='reject-notice';
+ const names=unseen.map(x=>`<div class="reject-item">👎 ${esc(chore(x.chore_id)?.name||'Chore')}</div>`).join('');
+ d.innerHTML=`<div class="reject-card"><div class="reject-thumb">👎</div><h2 style="font-size:27px;margin-bottom:7px">Almost — try again!</h2><p>${unseen.length===1?'This chore was sent back by a parent.':'These chores were sent back by a parent.'}</p><div class="reject-list">${names}</div><button class="primary" style="width:100%" onclick='dismissRejectedNotice(${JSON.stringify(ids)})'>Got it — I’ll try again</button></div>`;
+ document.body.appendChild(d);
+}
+async function dismissRejectedNotice(ids){
+ document.getElementById('rejectNotice')?.remove();
+ const now=new Date().toISOString();
+ state.completions.forEach(x=>{if(ids.includes(x.id))x.kid_notified_at=now});
+ const {error}=await sb.from('chore_completions').update({kid_notified_at:now}).in('id',ids);
+ if(error)console.warn('Could not mark rejection notice seen',error);
+}
+
 function errText(e){return e?.message||String(e||'Something went wrong')}
 function modal(html){closeModal();const d=document.createElement('div');d.id='modalBack';d.className='modalback';d.innerHTML=`<div class="modal"><div class="row between" style="margin-bottom:8px"><div></div><button class="icon-btn" onclick="closeModal()">✕</button></div>${html}</div>`;d.onclick=e=>{if(e.target===d)closeModal()};document.body.appendChild(d)}
 function closeModal(){document.getElementById('modalBack')?.remove()}
@@ -156,15 +243,15 @@ function familyView(){
 
 
 function kidPin(id){const c=child(id);modal(`<h2>${esc(c.name)}</h2><p>Enter ${esc(c.name)}'s 4-digit PIN.</p><label style="display:block;margin-top:16px">PIN<input id="kidPinInput" class="input pin" inputmode="numeric" maxlength="4" type="password"></label><button class="primary" style="width:100%;margin-top:14px" onclick="verifyKid('${id}')">Open Kid Mode</button>`);setTimeout(()=>$('kidPinInput')?.focus(),100)}
-async function verifyKid(id){const pin=$('kidPinInput').value.trim();const {data,error}=await sb.rpc('verify_child_pin',{child:id,candidate_pin:pin});if(error)return toast(errText(error));if(!data)return toast('Wrong PIN');closeModal();state.kidId=id;state.view='kid';state.kidTab='today';render()}
+async function verifyKid(id){ensureFunAudio();const pin=$('kidPinInput').value.trim();const {data,error}=await sb.rpc('verify_child_pin',{child:id,candidate_pin:pin});if(error)return toast(errText(error));if(!data)return toast('Wrong PIN');closeModal();state.kidId=id;state.view='kid';state.kidTab='today';render();setTimeout(()=>showRejectedNotice(id),120)}
 function exitKid(){state.kidId=null;state.view='family';render()}
 
 function kidView(){const c=child(state.kidId);if(!c)return familyView();const tabs=[['today','Today','✓'],['rewards','Rewards','★'],['jobs','Jobs','＋'],['progress','Progress','🔥']];let content=state.kidTab==='today'?kidToday(c):state.kidTab==='rewards'?kidRewards(c):state.kidTab==='jobs'?kidJobs(c):kidProgress(c);return `${topbar()}<main><div class="hero card"><div class="row between"><div><div class="row"><div class="avatar">${esc(c.avatar||c.name[0])}</div><div><h1 style="margin:0">Hi, ${esc(c.name)}!</h1><p>${balanceSummary(c)} available</p></div></div></div></div></div>${content}</main><div class="bottomnav"><div class="navwrap">${tabs.map(t=>`<button class="navitem ${state.kidTab===t[0]?'active':''}" onclick="kidTab('${t[0]}')"><span>${t[2]}</span>${t[1]}</button>`).join('')}</div></div>`}
 
 function kidTab(t){state.kidTab=t;render()}
-function kidToday(c){const rows=state.assignments.filter(a=>a.child_id===c.id).map(a=>chore(a.chore_id)).filter(ch=>ch&&ch.active&&ch.chore_type!=='bonus');if(!rows.length)return `<div class="section-head"><h2>Today</h2></div><div class="card empty">Nothing assigned today 🎉</div>`;return `<div class="section-head"><h2>Today</h2></div><div class="card">${rows.map(ch=>{const comp=completionFor(ch.id,c.id);const st=comp?.status||'todo';const reward=Number(ch.reward_amount||0),unit=rewardUnitFor(ch,c);return `<div class="task"><div><div class="task-title">${esc(ch.name)}</div><div class="row"><span class="tag ${st==='approved'?'good':st==='pending'?'warn':st==='missed'?'bad':'blue'}">${st==='todo'?'TO DO':st.toUpperCase()}</span>${reward?`<span class="reward">+${fmt(c,reward,unit)}</span>`:''}${ch.due_time?`<span class="small muted">Due ${esc(ch.due_time)}</span>`:''}</div></div>${st==='todo'?`<button class="done-btn" onclick="markDone('${comp?.id||''}','${ch.id}','${c.id}')">DONE</button>`:st==='pending'?`<span class="tag warn">Waiting for parent</span>`:st==='approved'?`<span class="tag good">✓ Approved</span>`:`<span class="tag">${esc(st)}</span>`}</div>`}).join('')}</div>`}
+function kidToday(c){const rows=state.assignments.filter(a=>a.child_id===c.id).map(a=>chore(a.chore_id)).filter(ch=>ch&&ch.active&&ch.chore_type!=='bonus');if(!rows.length)return `<div class="section-head"><h2>Today</h2></div><div class="card empty">Nothing assigned today 🎉</div>`;return `<div class="section-head"><h2>Today</h2></div><div class="card">${rows.map(ch=>{const comp=completionFor(ch.id,c.id);const st=comp?.status||'todo';const reward=Number(ch.reward_amount||0),unit=rewardUnitFor(ch,c);return `<div class="task"><div><div class="task-title">${esc(ch.name)}</div><div class="row"><span class="tag ${st==='approved'?'good':st==='pending'?'warn':(st==='missed'||st==='rejected')?'bad':'blue'}">${st==='todo'?'TO DO':st.toUpperCase()}</span>${reward?`<span class="reward">+${fmt(c,reward,unit)}</span>`:''}${ch.due_time?`<span class="small muted">Due ${esc(ch.due_time)}</span>`:''}${st==='rejected'?`<span class="small" style="color:var(--bad);font-weight:800">Parent said try again</span>`:''}</div></div>${st==='todo'?`<button class="done-btn" onclick="markDone('${comp?.id||''}','${ch.id}','${c.id}')">DONE</button>`:st==='rejected'?`<button class="done-btn" onclick="markDone('${comp?.id||''}','${ch.id}','${c.id}')">TRY AGAIN</button>`:st==='pending'?`<span class="tag warn">Waiting for parent</span>`:st==='approved'?`<span class="tag good">✓ Approved</span>`:`<span class="tag">${esc(st)}</span>`}</div>`}).join('')}</div>`}
 
-async function markDone(compId,choreId,childId){try{let id=compId;if(!id){const {data,error}=await sb.from('chore_completions').insert({family_id:state.family.id,chore_id:choreId,child_id:childId,due_date:today(),status:'pending',submitted_at:new Date().toISOString()}).select('id').single();if(error)throw error;id=data.id}else{const {error}=await sb.from('chore_completions').update({status:'pending',submitted_at:new Date().toISOString()}).eq('id',id);if(error)throw error}toast('Sent to parent for approval');await loadData();state.view='kid';state.kidId=childId;state.kidTab='today'}catch(e){toast(errText(e))}}
+async function markDone(compId,choreId,childId){ensureFunAudio();try{let id=compId;if(!id){const {data,error}=await sb.from('chore_completions').insert({family_id:state.family.id,chore_id:choreId,child_id:childId,due_date:today(),status:'pending',submitted_at:new Date().toISOString(),kid_notified_at:null}).select('id').single();if(error)throw error;id=data.id}else{const {error}=await sb.from('chore_completions').update({status:'pending',submitted_at:new Date().toISOString(),reviewed_at:null,reviewed_by:null,kid_notified_at:null}).eq('id',id);if(error)throw error}celebrateChore(choreId);toast('Nice! Sent to parent 🚀');await loadData();state.view='kid';state.kidId=childId;state.kidTab='today'}catch(e){toast(errText(e))}}
 function kidRewards(c){
  const reqs=state.redemptions.filter(r=>r.child_id===c.id).slice(0,8);
  const screen=c.reward_type==='minutes'||c.reward_type==='both'?`<div class="card"><div class="small muted">Screen time available this week</div><div class="big-balance">${Math.round(balance(c.id,'minutes'))} min</div>${Number(c.weekly_screen_minutes||0)>0?`<p>Includes ${Math.round(Number(c.weekly_screen_minutes||0)/60*10)/10} hr weekly allowance. Screen-time balance resets each Monday.</p>`:`<p>Earn or receive screen time from a parent. Screen-time balance resets each Monday.</p>`}<div class="row" style="margin-top:14px">${[15,30,60].map(n=>`<button class="secondary" onclick="requestMinutes(${n})">Use ${n} min</button>`).join('')}</div></div>`:'';
@@ -189,7 +276,7 @@ function parentHome(){const todayC=state.completions.filter(x=>x.due_date===toda
 function parentApprovals(){const comps=state.completions.filter(x=>x.status==='pending');const reds=state.redemptions.filter(x=>x.status==='pending');return `<div class="row between"><div><h1>Approvals</h1><p>Rewards hit the ledger only after approval.</p></div></div><div class="section-head"><h2>Chores</h2></div>${comps.length?`<div class="grid">${comps.map(x=>{const c=child(x.child_id),ch=chore(x.chore_id),unit=rewardUnitFor(ch,c);return `<div class="card"><div class="row between"><div><span class="tag warn">WAITING</span><h3 style="margin-top:8px">${esc(ch?.name||'Chore')}</h3><div class="small muted">${esc(c?.name||'Child')} ${Number(ch?.reward_amount||0)?`• +${fmt(c,ch.reward_amount,unit)}`:''}</div></div><div class="row"><button class="secondary reject" onclick="rejectCompletion('${x.id}')">Reject</button><button class="primary success" onclick="approveCompletion('${x.id}')">Approve</button></div></div></div>`}).join('')}</div>`:`<div class="card empty">No chores waiting.</div>`}<div class="section-head"><h2>Screen time</h2></div>${reds.length?`<div class="grid">${reds.map(r=>{const c=child(r.child_id);return `<div class="card"><div class="row between"><div><h3>${esc(c?.name||'Child')} • ${r.minutes} minutes</h3><div class="small muted">Current screen-time balance ${Math.round(balance(r.child_id,'minutes'))} min</div></div><div class="row"><button class="secondary reject" onclick="rejectRedemption('${r.id}')">Reject</button><button class="primary success" onclick="approveRedemption('${r.id}')">Approve</button></div></div></div>`}).join('')}</div>`:`<div class="card empty">No screen-time requests waiting.</div>`}`}
 
 async function approveCompletion(id){const {error}=await sb.rpc('approve_chore_completion',{target_completion:id});if(error)return toast(errText(error));toast('Approved — ledger updated');await loadData();state.view='parent';state.parentUnlocked=true;state.parentTab='approvals'}
-async function rejectCompletion(id){const {error}=await sb.from('chore_completions').update({status:'todo',reviewed_at:new Date().toISOString(),reviewed_by:state.user.id}).eq('id',id);if(error)return toast(errText(error));toast('Sent back to To Do');await loadData();state.view='parent';state.parentUnlocked=true;state.parentTab='approvals'}
+async function rejectCompletion(id){const {error}=await sb.from('chore_completions').update({status:'rejected',reviewed_at:new Date().toISOString(),reviewed_by:state.user.id,kid_notified_at:null}).eq('id',id);if(error)return toast(errText(error));toast('Rejected — they’ll see it when they open their screen');await loadData();state.view='parent';state.parentUnlocked=true;state.parentTab='approvals'}
 async function approveRedemption(id){const {error}=await sb.rpc('approve_tablet_redemption',{target_redemption:id});if(error)return toast(errText(error));toast('Tablet time approved — balance deducted');await loadData();state.view='parent';state.parentUnlocked=true;state.parentTab='approvals'}
 async function rejectRedemption(id){const {error}=await sb.rpc('reject_tablet_redemption',{target_redemption:id});if(error)return toast(errText(error));toast('Request rejected');await loadData();state.view='parent';state.parentUnlocked=true;state.parentTab='approvals'}
 
@@ -266,7 +353,7 @@ async function saveSettings(){const {error}=await sb.from('family_settings').upd
 async function changeParentPin(){const pin=$('newParentPin').value.trim();const {error}=await sb.rpc('set_parent_pin',{target_family:state.family.id,new_pin:pin});if(error)return toast(errText(error));toast('Parent PIN changed');$('newParentPin').value=''}
 
 function render(){const root=$('app');if(state.loading){root.innerHTML='<div class="spinner"></div>';return}if(state.recovery&&state.session){root.innerHTML=recoveryView();return}if(!state.session){root.innerHTML=loginView();return}if(!state.family){root.innerHTML=onboardingView();return}if(!state.hasParentPin){root.innerHTML=parentPinSetupView();return}root.innerHTML=state.view==='kid'&&state.kidId?kidView():state.view==='parent'&&state.parentUnlocked?parentView():familyView()}
-Object.assign(window,{signIn,signUp,signOut,forgotPassword,sendPasswordReset,saveNewPassword,finishParentPinSetup,createFamily,closeModal,kidPin,verifyKid,exitKid,kidTab,markDone,requestMinutes,claimBonus,parentPin,resetParentPinModal,saveResetParentPin,verifyParent,exitParent,parentTab,approveCompletion,rejectCompletion,approveRedemption,rejectRedemption,addChildModal,addChild,rewardSettingsModal,saveChildRewardSettings,adjustRewardModal,prefillAdjustment,saveRewardAdjustment,resetKidPin,saveKidPin,manageChildConfirm,setChildActive,manageChoreConfirm,setChoreActive,setLibrarySearch,assignLibrary,saveLibraryAssignment,customChoreModal,saveCustomChore,syncRewardUnit,saveSettings,changeParentPin});
+Object.assign(window,{signIn,signUp,signOut,forgotPassword,sendPasswordReset,saveNewPassword,finishParentPinSetup,createFamily,closeModal,kidPin,verifyKid,exitKid,kidTab,markDone,dismissRejectedNotice,requestMinutes,claimBonus,parentPin,resetParentPinModal,saveResetParentPin,verifyParent,exitParent,parentTab,approveCompletion,rejectCompletion,approveRedemption,rejectRedemption,addChildModal,addChild,rewardSettingsModal,saveChildRewardSettings,adjustRewardModal,prefillAdjustment,saveRewardAdjustment,resetKidPin,saveKidPin,manageChildConfirm,setChildActive,manageChoreConfirm,setChoreActive,setLibrarySearch,assignLibrary,saveLibraryAssignment,customChoreModal,saveCustomChore,syncRewardUnit,saveSettings,changeParentPin});
 if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
 init();
 </script>
