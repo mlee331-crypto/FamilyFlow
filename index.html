@@ -4,518 +4,150 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1f6feb">
-<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="FamilyFlow">
+<link rel="manifest" href="./manifest.webmanifest">
 <title>FamilyFlow — Chores & Rewards</title>
 <style>
-:root{
-  --bg:#f5f7fb;--card:#fff;--ink:#152033;--muted:#667085;--line:#e6eaf0;
-  --accent:#1f6feb;--accent2:#7c3aed;--good:#16803c;--warn:#b54708;--bad:#b42318;
-  --shadow:0 8px 28px rgba(31,45,61,.08);--radius:22px;
-}
-*{box-sizing:border-box}
-body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
-button,input,select{font:inherit}
-button{cursor:pointer}
-.app{max-width:1180px;margin:auto;min-height:100vh;padding-bottom:92px}
-.topbar{position:sticky;top:0;z-index:20;background:rgba(245,247,251,.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(230,234,240,.9);padding:12px 16px;display:flex;align-items:center;gap:10px}
-.brand{font-weight:900;letter-spacing:-.04em;font-size:21px;white-space:nowrap}
-.brand span{color:var(--accent)}
-.spacer{flex:1}
-.mode-btn,.pill-btn,.icon-btn{border:1px solid var(--line);background:#fff;border-radius:14px;padding:10px 12px;color:var(--ink);font-weight:700}
-.mode-btn.active{background:var(--ink);color:#fff;border-color:var(--ink)}
-main{padding:18px 16px 30px}
-h1{font-size:31px;line-height:1.05;margin:6px 0 6px;letter-spacing:-.04em}
-h2{font-size:22px;margin:0 0 12px;letter-spacing:-.025em}
-h3{font-size:16px;margin:0}
-p{margin:0;color:var(--muted)}
-.grid{display:grid;gap:14px}
-.grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
-.grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
-.grid.cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:17px}
-.stat{padding:14px}
-.stat b{font-size:25px;display:block;margin-top:5px}
-.muted{color:var(--muted)}
-.small{font-size:12px}
-.hero{padding:18px;background:linear-gradient(135deg,#eef5ff,#f4efff)}
-.progress{height:10px;background:#e9edf4;border-radius:99px;overflow:hidden}
-.progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px}
-.kid-card{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center}
-.avatar{width:54px;height:54px;border-radius:18px;display:grid;place-items:center;background:#eef4ff;color:var(--accent);font-weight:900;font-size:20px}
-.balance{font-weight:900;font-size:20px;text-align:right}
-.tag{display:inline-flex;align-items:center;gap:6px;border-radius:99px;padding:6px 9px;background:#f0f3f7;color:#475467;font-size:12px;font-weight:800}
-.tag.good{background:#eaf8ef;color:var(--good)}
-.tag.warn{background:#fff3e7;color:var(--warn)}
-.tag.bad{background:#ffefed;color:var(--bad)}
-.tag.blue{background:#edf4ff;color:var(--accent)}
-.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:22px 0 10px}
-.task{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}
-.task:first-child{border-top:0;padding-top:0}
-.task-title{font-weight:850;margin-bottom:5px}
-.reward{font-weight:900;color:var(--good)}
-.done-btn,.primary{border:0;border-radius:15px;background:var(--accent);color:#fff;font-weight:850;padding:12px 16px;min-height:46px}
-.secondary{border:1px solid var(--line);border-radius:15px;background:#fff;color:var(--ink);font-weight:800;padding:11px 14px;min-height:44px}
-.danger{border-color:#f5c2bd;color:var(--bad);background:#fff6f5}
-.success{background:var(--good)}
-.reject{background:#fff;color:var(--bad);border:1px solid #f0b9b5}
-.pending{background:#fff7ed;border:1px solid #fed7aa}
-.big-balance{font-size:42px;font-weight:950;letter-spacing:-.05em;margin:4px 0}
-.bottomnav{position:fixed;z-index:30;left:0;right:0;bottom:0;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:max(7px,env(safe-area-inset-bottom)) 8px calc(7px + env(safe-area-inset-bottom));display:flex;justify-content:center}
-.bottomnav .navwrap{width:min(100%,900px);display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px}
-.navitem{border:0;background:transparent;border-radius:12px;padding:8px 5px;color:#667085;font-weight:800;font-size:11px}
-.navitem span{display:block;font-size:19px;margin-bottom:2px}
-.navitem.active{background:#edf4ff;color:var(--accent)}
-.tabs{display:flex;gap:8px;overflow:auto;padding-bottom:4px}
-.tab{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:99px;padding:9px 12px;font-weight:800;color:#667085}
-.tab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
-.toolbar{display:grid;grid-template-columns:1fr auto auto;gap:8px}
-.search,.select{width:100%;border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px 13px;outline:none}
-.library{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
-.libcard{border:1px solid var(--line);border-radius:17px;padding:14px;background:#fff}
-.libcard.selected{outline:3px solid #bcd3ff;border-color:var(--accent)}
-.lib-top{display:flex;justify-content:space-between;gap:8px}
-.check{width:22px;height:22px}
-.modalback{position:fixed;z-index:100;inset:0;background:rgba(17,24,39,.45);display:grid;place-items:end center;padding:0}
-.modal{width:min(100%,650px);max-height:88vh;overflow:auto;background:#fff;border-radius:26px 26px 0 0;padding:20px 18px 28px;box-shadow:0 -15px 60px rgba(0,0,0,.2)}
-.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-label{font-size:12px;font-weight:800;color:#475467}
-label input,label select{margin-top:6px}
-.input{width:100%;border:1px solid var(--line);border-radius:13px;padding:11px 12px;background:#fff}
-.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.row.between{justify-content:space-between}
-.divider{height:1px;background:var(--line);margin:15px 0}
-.empty{padding:28px;text-align:center;color:var(--muted)}
-.table{width:100%;border-collapse:collapse}
-.table th,.table td{text-align:left;padding:11px 8px;border-bottom:1px solid var(--line);font-size:13px}
-.table th{color:#667085;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
-.ledger-pos{color:var(--good);font-weight:900}.ledger-neg{color:var(--bad);font-weight:900}
-.ring{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--accent) calc(var(--pct)*1%),#e9edf4 0);position:relative}
-.ring:after{content:"";position:absolute;width:56px;height:56px;background:#fff;border-radius:50%}
-.ring b{z-index:2}
-.login{max-width:460px;margin:9vh auto 0}
-.pin{font-size:26px;letter-spacing:.32em;text-align:center;font-weight:900}
-.notice{border-radius:14px;padding:11px 12px;background:#eef5ff;color:#264c87;font-size:13px}
-.toast{position:fixed;z-index:200;left:50%;bottom:95px;transform:translateX(-50%);background:#111827;color:#fff;border-radius:99px;padding:10px 15px;font-weight:800;font-size:13px;box-shadow:var(--shadow)}
-.badge{display:flex;gap:10px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:16px;background:#fff}.badge .ico{font-size:28px}
-@media(max-width:760px){
-  .grid.cols-4,.grid.cols-3{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .grid.cols-2{grid-template-columns:1fr}
-  .library{grid-template-columns:1fr}
-  .toolbar{grid-template-columns:1fr}
-  h1{font-size:27px}
-  .topbar .mode-btn{padding:9px 10px;font-size:12px}
-}
-@media(max-width:430px){
-  main{padding-left:12px;padding-right:12px}
-  .card{padding:14px;border-radius:18px}
-  .kid-card{grid-template-columns:auto 1fr}
-  .kid-card .balance{grid-column:1/-1;text-align:left}
-  .formgrid{grid-template-columns:1fr}
-}
+:root{--bg:#f5f7fb;--card:#fff;--ink:#152033;--muted:#667085;--line:#e6eaf0;--accent:#1f6feb;--accent2:#7c3aed;--good:#16803c;--warn:#b54708;--bad:#b42318;--shadow:0 8px 28px rgba(31,45,61,.08);--radius:22px}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}button,input,select{font:inherit}button{cursor:pointer}.app{max-width:1180px;margin:auto;min-height:100vh;padding-bottom:94px}.topbar{position:sticky;top:0;z-index:20;background:rgba(245,247,251,.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(230,234,240,.9);padding:12px 16px;display:flex;align-items:center;gap:10px}.brand{font-weight:900;letter-spacing:-.04em;font-size:21px;white-space:nowrap}.brand span{color:var(--accent)}.spacer{flex:1}.mode-btn,.pill-btn,.icon-btn{border:1px solid var(--line);background:#fff;border-radius:14px;padding:10px 12px;color:var(--ink);font-weight:700}.mode-btn.active{background:var(--ink);color:#fff;border-color:var(--ink)}main{padding:18px 16px 30px}h1{font-size:31px;line-height:1.05;margin:6px 0 6px;letter-spacing:-.04em}h2{font-size:22px;margin:0 0 12px;letter-spacing:-.025em}h3{font-size:16px;margin:0}p{margin:0;color:var(--muted)}.grid{display:grid;gap:14px}.grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid.cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:17px}.stat{padding:14px}.stat b{font-size:25px;display:block;margin-top:5px}.muted{color:var(--muted)}.small{font-size:12px}.hero{padding:18px;background:linear-gradient(135deg,#eef5ff,#f4efff)}.progress{height:10px;background:#e9edf4;border-radius:99px;overflow:hidden}.progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px}.kid-card{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center}.avatar{width:54px;height:54px;border-radius:18px;display:grid;place-items:center;background:#eef4ff;color:var(--accent);font-weight:900;font-size:20px}.balance{font-weight:900;font-size:20px;text-align:right}.tag{display:inline-flex;align-items:center;gap:6px;border-radius:99px;padding:6px 9px;background:#f0f3f7;color:#475467;font-size:12px;font-weight:800}.tag.good{background:#eaf8ef;color:var(--good)}.tag.warn{background:#fff3e7;color:var(--warn)}.tag.bad{background:#ffefed;color:var(--bad)}.tag.blue{background:#edf4ff;color:var(--accent)}.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:22px 0 10px}.task{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}.task:first-child{border-top:0;padding-top:0}.task-title{font-weight:850;margin-bottom:5px}.reward{font-weight:900;color:var(--good)}.done-btn,.primary{border:0;border-radius:15px;background:var(--accent);color:#fff;font-weight:850;padding:12px 16px;min-height:46px}.secondary{border:1px solid var(--line);border-radius:15px;background:#fff;color:var(--ink);font-weight:800;padding:11px 14px;min-height:44px}.danger{border-color:#f5c2bd;color:var(--bad);background:#fff6f5}.success{background:var(--good)}.reject{background:#fff;color:var(--bad);border:1px solid #f0b9b5}.pending{background:#fff7ed;border:1px solid #fed7aa}.big-balance{font-size:42px;font-weight:950;letter-spacing:-.05em;margin:4px 0}.bottomnav{position:fixed;z-index:30;left:0;right:0;bottom:0;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:7px 8px calc(7px + env(safe-area-inset-bottom));display:flex;justify-content:center}.bottomnav .navwrap{width:min(100%,900px);display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px}.navitem{border:0;background:transparent;border-radius:12px;padding:8px 5px;color:#667085;font-weight:800;font-size:11px}.navitem span{display:block;font-size:19px;margin-bottom:2px}.navitem.active{background:#edf4ff;color:var(--accent)}.toolbar{display:grid;grid-template-columns:1fr auto auto;gap:8px}.search,.select,.input{width:100%;border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px 13px;outline:none}.library{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.libcard{border:1px solid var(--line);border-radius:17px;padding:14px;background:#fff}.modalback{position:fixed;z-index:100;inset:0;background:rgba(17,24,39,.45);display:grid;place-items:end center}.modal{width:min(100%,650px);max-height:90vh;overflow:auto;background:#fff;border-radius:26px 26px 0 0;padding:20px 18px calc(28px + env(safe-area-inset-bottom));box-shadow:0 -15px 60px rgba(0,0,0,.2)}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}label{font-size:12px;font-weight:800;color:#475467}label input,label select{margin-top:6px}.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.row.between{justify-content:space-between}.divider{height:1px;background:var(--line);margin:15px 0}.empty{padding:28px;text-align:center;color:var(--muted)}.tablewrap{overflow:auto}.table{width:100%;border-collapse:collapse}.table th,.table td{text-align:left;padding:11px 8px;border-bottom:1px solid var(--line);font-size:13px}.table th{color:#667085;font-size:11px;text-transform:uppercase;letter-spacing:.05em}.ledger-pos{color:var(--good);font-weight:900}.ledger-neg{color:var(--bad);font-weight:900}.login{max-width:460px;margin:8vh auto 0}.pin{font-size:26px;letter-spacing:.32em;text-align:center;font-weight:900}.notice{border-radius:14px;padding:11px 12px;background:#eef5ff;color:#264c87;font-size:13px}.error{background:#fff0ef;color:#9b1c13}.toast{position:fixed;z-index:200;left:50%;bottom:95px;transform:translateX(-50%);background:#111827;color:#fff;border-radius:99px;padding:10px 15px;font-weight:800;font-size:13px;box-shadow:var(--shadow)}.spinner{width:34px;height:34px;border:4px solid #dce6f7;border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite;margin:20vh auto}@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:760px){.grid.cols-4,.grid.cols-3{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.cols-2{grid-template-columns:1fr}.library{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr}h1{font-size:27px}.topbar .mode-btn{padding:9px 10px;font-size:12px}}
+@media(max-width:430px){main{padding-left:12px;padding-right:12px}.card{padding:14px;border-radius:18px}.kid-card{grid-template-columns:auto 1fr}.kid-card .balance{grid-column:1/-1;text-align:left}.formgrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<div id="app" class="app"></div>
-<script>
-const DB_KEY='familyflow-prototype-v1';
-const todayISO=()=>new Date().toISOString().slice(0,10);
-const money=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(n);
-const nowTime=()=>new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
-const uuid=()=>Math.random().toString(36).slice(2)+Date.now().toString(36);
+<div id="app" class="app"><div class="spinner"></div></div>
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-const choreLibrary=[
-['Make bed','Bedroom','3–5','Daily','Easy','responsibility'],
-['Put dirty clothes in hamper','Bedroom','3–5','Daily','Easy','responsibility'],
-['Pick up toys','Playroom','3–5','Daily','Easy','responsibility'],
-['Put books back on shelf','Playroom','3–5','Daily','Easy','responsibility'],
-['Take plate to sink','Kitchen','3–5','Daily','Easy','responsibility'],
-['Brush teeth','Personal Responsibility','3–5','Twice daily','Easy','responsibility'],
-['Help wipe table','Helping Family','3–5','As needed','Easy','responsibility'],
-['Clean up playroom','Playroom','6–8','Daily','Easy','responsibility'],
-['Set table','Kitchen','6–8','Daily','Easy','earned'],
-['Fold towels','Laundry','6–8','Weekly','Medium','earned'],
-['Feed pet','Pets','6–8','Daily','Easy','responsibility'],
-['Empty bedroom trash','Trash & Recycling','6–8','Weekly','Easy','earned'],
-['Pack backpack','School','6–8','School days','Easy','responsibility'],
-['Load dishwasher','Kitchen','9–12','Daily','Medium','earned'],
-['Unload dishwasher','Kitchen','9–12','Daily','Medium','earned'],
-['Vacuum bedroom','Bedroom','9–12','Weekly','Medium','earned'],
-['Clean sink','Bathroom','9–12','Weekly','Medium','earned'],
-['Bring empty bins back','Trash & Recycling','9–12','Weekly','Medium','earned'],
-['Help wash car','Outdoor','9–12','As needed','Medium','bonus'],
-['Fully clean bedroom','Bedroom','13–15','Weekly','Medium','responsibility'],
-['Wash own laundry','Laundry','13–15','Weekly','Medium','responsibility'],
-['Clean toilet','Bathroom','13–15','Weekly','Medium','earned'],
-['Take garbage bins to curb','Trash & Recycling','13–15','Weekly','Medium','earned'],
-['Mow lawn with parent approval','Outdoor','13–15','Weekly','Hard','earned'],
-['Wash car','Outdoor','13–15','As needed','Medium','bonus'],
-['Help make family dinner','Helping Family','13–15','Weekly','Medium','earned'],
-['Cook family dinner','Kitchen','16–18','Weekly','Hard','earned'],
-['Grocery shopping from a list','Helping Family','16–18','As needed','Medium','earned'],
-['Deep clean kitchen','Kitchen','16–18','Monthly','Hard','earned'],
-['Organize garage','Family Areas','16–18','Monthly','Hard','bonus']
-].map((x,i)=>({id:'lib'+i,name:x[0],category:x[1],age:x[2],frequency:x[3],difficulty:x[4],suggestedType:x[5],favorite:i<3,popular:i%4===0}));
+const SUPABASE_URL='https://dxzgpcquvwjacnxjjumg.supabase.co';
+const SUPABASE_KEY='sb_publishable_wLnZ8wQlzFzKVjr95mEziA_KePU101A';
+const sb=createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const today=()=>new Date().toISOString().slice(0,10);
+const money=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(Number(n||0));
+const fmt=(child,n)=>child?.reward_type==='money'?money(n):`${Math.round(Number(n||0))} min`;
+const state={session:null,user:null,family:null,settings:null,children:[],balances:{},chores:[],assignments:[],completions:[],ledger:[],redemptions:[],library:[],badges:[],streaks:[],view:'family',kidId:null,parentUnlocked:false,parentTab:'home',kidTab:'today',loading:true,librarySearch:''};
 
-const packs=[
-{name:'Morning Routine',items:['Make bed','Get dressed','Put pajamas away','Brush teeth','Put breakfast dishes in sink']},
-{name:'After School Reset',items:['Put shoes away','Put backpack away','Put lunchbox in kitchen','Complete homework','Pick up personal items']},
-{name:'Bedtime Reset',items:['Pick up bedroom','Put dirty clothes in hamper','Put toys away','Brush teeth','Put electronics away']},
-{name:'Playroom Reset',items:['Put toys in bins','Put books away','Put craft supplies away','Pick up floor','Put games away']},
-{name:'Kitchen Helper',items:['Clear table','Load dishwasher','Wipe table','Sweep floor']},
-{name:'Teen Weekly Responsibilities',items:['Take trash to curb','Unload dishwasher','Clean bathroom','Wash own laundry','Clean bedroom']}
-];
-
-function seed(){
- const d=todayISO();
- return {
-  family:{id:'fam-demo',name:'The Carter Family',parentPin:'2468',settings:{smallMinutes:5,mediumMinutes:10,largeMinutes:20,smallMoney:1,mediumMoney:3,largeMoney:5,dailyTabletLimit:60,minRedemption:15}},
-  children:[
-   {id:'c1',name:'Ava',age:6,rewardType:'minutes',pin:'1111',streak:6,avatar:'A',weeklyPct:92,badges:['Room Reset Pro','Morning Star']},
-   {id:'c2',name:'Mia',age:4,rewardType:'minutes',pin:'2222',streak:3,avatar:'M',weeklyPct:81,badges:['Toy Tamer']},
-   {id:'c3',name:'Jack',age:14,rewardType:'money',pin:'3333',streak:4,avatar:'J',weeklyPct:88,badges:['Kitchen Closer','Trash Captain']}
-  ],
-  chores:[
-   {id:'ch1',name:'Make bed',category:'Bedroom',type:'responsibility',childIds:['c1'],reward:0,deduction:5,approval:true,schedule:'Daily',due:'8:00 AM',active:true},
-   {id:'ch2',name:'Clean up playroom',category:'Playroom',type:'earned',childIds:['c1'],reward:15,deduction:0,approval:true,schedule:'Daily',due:'6:00 PM',active:true},
-   {id:'ch3',name:'Brush teeth',category:'Personal Responsibility',type:'responsibility',childIds:['c2'],reward:0,deduction:5,approval:true,schedule:'Daily',due:'8:00 PM',active:true},
-   {id:'ch4',name:'Put toys in bins',category:'Playroom',type:'earned',childIds:['c2'],reward:10,deduction:0,approval:true,schedule:'Daily',due:'6:30 PM',active:true},
-   {id:'ch5',name:'Unload dishwasher',category:'Kitchen',type:'earned',childIds:['c3'],reward:2,deduction:1,approval:true,schedule:'Daily',due:'5:00 PM',active:true},
-   {id:'ch6',name:'Take garbage bins to curb',category:'Trash & Recycling',type:'earned',childIds:['c3'],reward:4,deduction:2,approval:true,schedule:'Weekly • Thursday',due:'8:00 PM',active:true},
-   {id:'ch7',name:'Wash Dad’s car',category:'Outdoor',type:'bonus',childIds:['c3'],reward:10,deduction:0,approval:true,schedule:'Bonus job',due:'',active:true,claimable:true},
-   {id:'ch8',name:'Help rake leaves',category:'Outdoor',type:'bonus',childIds:['c1','c2'],reward:15,deduction:0,approval:true,schedule:'Bonus job',due:'',active:true,claimable:true}
-  ],
-  instances:[
-   {id:'i1',choreId:'ch1',childId:'c1',date:d,status:'todo'},
-   {id:'i2',choreId:'ch2',childId:'c1',date:d,status:'pending',submittedAt:'7:40 AM'},
-   {id:'i3',choreId:'ch3',childId:'c2',date:d,status:'todo'},
-   {id:'i4',choreId:'ch4',childId:'c2',date:d,status:'approved'},
-   {id:'i5',choreId:'ch5',childId:'c3',date:d,status:'pending',submittedAt:'7:55 AM'},
-   {id:'i6',choreId:'ch6',childId:'c3',date:d,status:'todo'}
-  ],
-  approvals:[
-   {id:'a1',kind:'chore',instanceId:'i2',childId:'c1',title:'Clean up playroom',amount:15,status:'pending'},
-   {id:'a2',kind:'chore',instanceId:'i5',childId:'c3',title:'Unload dishwasher',amount:2,status:'pending'},
-   {id:'a3',kind:'redemption',childId:'c2',title:'Tablet time request',amount:30,status:'pending'}
-  ],
-  ledger:[
-   {id:uuid(),date:d,time:'7:10 AM',childId:'c1',reason:'Morning routine bonus',amount:20,type:'bonus',approvedBy:'Parent'},
-   {id:uuid(),date:d,time:'7:20 AM',childId:'c1',reason:'Playroom not cleaned yesterday',amount:-10,type:'deduction',approvedBy:'Parent'},
-   {id:uuid(),date:d,time:'7:30 AM',childId:'c2',reason:'Put toys in bins',amount:10,type:'chore',approvedBy:'Parent'},
-   {id:uuid(),date:d,time:'7:35 AM',childId:'c2',reason:'Tablet Time Used',amount:-30,type:'redemption',approvedBy:'Parent'},
-   {id:uuid(),date:d,time:'7:15 AM',childId:'c3',reason:'Took trash to curb',amount:4,type:'chore',approvedBy:'Parent'},
-   {id:uuid(),date:d,time:'7:25 AM',childId:'c3',reason:'Dishwasher responsibility missed',amount:-1,type:'deduction',approvedBy:'Parent'},
-   {id:uuid(),date:d,time:'7:45 AM',childId:'c3',reason:'Parent bonus',amount:5,type:'bonus',approvedBy:'Parent'}
-  ],
-  payments:[{id:'p1',childId:'c3',week:'This week',earned:31,deductions:-5,bonuses:4,total:30,status:'unpaid'}],
-  redemptions:[{id:'r1',childId:'c2',amount:30,date:d,status:'approved'}],
-  selectedLib:[],
-  session:{mode:'family',kidId:null,parentUnlocked:false,parentTab:'home',kidTab:'today'}
- };
-}
-let db=JSON.parse(localStorage.getItem(DB_KEY)||'null')||seed();
-function save(){localStorage.setItem(DB_KEY,JSON.stringify(db))}
-function child(id){return db.children.find(x=>x.id===id)}
-function chore(id){return db.chores.find(x=>x.id===id)}
-function bal(c){
- return db.ledger.filter(t=>t.childId===c.id).reduce((a,t)=>a+t.amount,0)
-}
-function fmt(c,n){return c.rewardType==='money'?money(n):`${Math.round(n)} min`}
-function toast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),1700)}
-function escapeHtml(s=''){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
-function statusCounts(c){
- const ins=db.instances.filter(i=>i.childId===c.id&&i.date===todayISO());
- return {done:ins.filter(i=>i.status==='approved').length,pending:ins.filter(i=>i.status==='pending').length,remaining:ins.filter(i=>i.status==='todo').length,total:ins.length}
-}
-function appShell(content,nav=''){
- return `<div class="topbar"><div class="brand">Family<span>Flow</span></div><div class="spacer"></div>
- <button class="mode-btn ${db.session.mode==='family'?'active':''}" onclick="switchMode('family')">Family</button>
- <button class="mode-btn ${db.session.mode==='kid'?'active':''}" onclick="openKidPicker()">Kid</button>
- <button class="mode-btn ${db.session.mode==='parent'?'active':''}" onclick="enterParent()">Parent</button></div>
- <main>${content}</main>${nav}`;
-}
-function familyView(){
- const counts=db.children.map(statusCounts);
- const done=counts.reduce((a,x)=>a+x.done,0), rem=counts.reduce((a,x)=>a+x.remaining,0), pend=db.approvals.filter(a=>a.status==='pending').length;
- const pct=(done+rem+pend)?Math.round(done/(done+rem+pend)*100):100;
- const cards=db.children.map(c=>{
-  const s=statusCounts(c);
-  return `<div class="card kid-card" onclick="loginKid('${c.id}')" style="cursor:pointer">
-    <div class="avatar">${c.avatar}</div><div><h3>${c.name} <span class="small muted">Age ${c.age}</span></h3>
-    <div class="small muted">${s.done} complete • ${s.remaining} remaining • ${s.pending} pending</div>
-    <div class="row" style="margin-top:7px"><span class="tag good">🔥 ${c.streak} day streak</span></div></div>
-    <div class="balance">${fmt(c,bal(c))}<div class="small muted">${c.rewardType==='money'?'balance':'tablet time'}</div></div></div>`;
- }).join('');
- return appShell(`
-  <div class="hero card"><div class="row between"><div><div class="small muted">TODAY</div><h1>Family progress</h1><p>${pct}% of today’s approved work is complete.</p></div><div class="ring" style="--pct:${pct}"><b>${pct}%</b></div></div><div class="progress" style="margin-top:15px"><i style="width:${pct}%"></i></div></div>
-  <div class="grid cols-4" style="margin-top:14px">
-   <div class="card stat"><span class="small muted">Completed</span><b>${done}</b></div>
-   <div class="card stat"><span class="small muted">Remaining</span><b>${rem}</b></div>
-   <div class="card stat"><span class="small muted">Approvals</span><b>${pend}</b></div>
-   <div class="card stat"><span class="small muted">Bonus jobs</span><b>${db.chores.filter(c=>c.type==='bonus'&&c.active).length}</b></div>
-  </div>
-  <div class="section-head"><h2>Kids</h2><span class="tag blue">Tap a profile</span></div>
-  <div class="grid cols-3">${cards}</div>
- `);
-}
-function openKidPicker(){
- const html=db.children.map(c=>`<button class="secondary" style="width:100%;margin:5px 0;text-align:left" onclick="loginKid('${c.id}')"><b>${c.name}</b><br><span class="small muted">${c.rewardType==='money'?'Money':'Tablet minutes'} • PIN required</span></button>`).join('');
- modal(`<h2>Choose a profile</h2><p style="margin-bottom:12px">Each child enters their own 4-digit PIN.</p>${html}`);
-}
-function loginKid(id){
- const c=child(id);
- modal(`<h2>${c.name}'s PIN</h2><p>Enter the 4-digit kid PIN.</p><input id="kidPin" class="input pin" maxlength="4" inputmode="numeric" placeholder="••••" style="margin:16px 0">
- <button class="primary" style="width:100%" onclick="verifyKid('${id}')">Open ${c.name}'s dashboard</button>`);
- setTimeout(()=>document.getElementById('kidPin')?.focus(),50);
-}
-function verifyKid(id){
- const v=document.getElementById('kidPin').value;
- if(v===child(id).pin){db.session.mode='kid';db.session.kidId=id;db.session.kidTab='today';save();closeModal();render()}
- else toast('Incorrect PIN');
-}
-function enterParent(){
- if(db.session.parentUnlocked){db.session.mode='parent';save();render();return}
- modal(`<h2>Parent Mode</h2><p>Enter the secure parent PIN.</p><input id="parentPin" class="input pin" maxlength="4" inputmode="numeric" placeholder="••••" style="margin:16px 0">
- <button class="primary" style="width:100%" onclick="verifyParent()">Unlock Parent Mode</button>
- <div class="notice" style="margin-top:12px">Prototype PIN: <b>2468</b></div>`);
-}
-function verifyParent(){
- const v=document.getElementById('parentPin').value;
- if(v===db.family.parentPin){db.session.parentUnlocked=true;db.session.mode='parent';save();closeModal();render()}
- else toast('Incorrect parent PIN');
-}
-function switchMode(m){db.session.mode=m;if(m!=='kid')db.session.kidId=null;save();render()}
-function kidNav(){
- const tabs=[['today','☀️','Today'],['rewards','🎁','Rewards'],['jobs','🧰','Jobs'],['progress','📈','Progress']];
- return `<nav class="bottomnav"><div class="navwrap">${tabs.map(t=>`<button class="navitem ${db.session.kidTab===t[0]?'active':''}" onclick="kidTab('${t[0]}')"><span>${t[1]}</span>${t[2]}</button>`).join('')}</div></nav>`;
-}
-function kidTab(t){db.session.kidTab=t;save();render()}
-function kidView(){
- const c=child(db.session.kidId)||db.children[0];
- if(db.session.kidTab==='rewards')return appShell(kidRewards(c),kidNav());
- if(db.session.kidTab==='jobs')return appShell(kidJobs(c),kidNav());
- if(db.session.kidTab==='progress')return appShell(kidProgress(c),kidNav());
- const ins=db.instances.filter(i=>i.childId===c.id&&i.date===todayISO());
- const todo=ins.filter(i=>i.status==='todo'),pending=ins.filter(i=>i.status==='pending'),approved=ins.filter(i=>i.status==='approved');
- const taskHtml=todo.map(i=>taskRow(c,i)).join('')||`<div class="empty">Nothing left to do right now. 🎉</div>`;
- return appShell(`
-   <div class="row between"><div><div class="small muted">HI, ${c.name.toUpperCase()}</div><h1>Today</h1><p>One job at a time. You’ve got this.</p></div><div class="avatar">${c.avatar}</div></div>
-   <div class="card hero" style="margin-top:16px"><div class="small muted">CURRENT ${c.rewardType==='money'?'BALANCE':'TABLET TIME'}</div><div class="big-balance">${fmt(c,bal(c))}</div><div class="row"><span class="tag good">🔥 ${c.streak} day streak</span><span class="tag blue">${c.weeklyPct}% this week</span></div></div>
-   <div class="section-head"><h2>Today’s jobs</h2><span class="tag">${todo.length} left</span></div>
-   <div class="card">${taskHtml}</div>
-   ${pending.length?`<div class="section-head"><h2>Waiting for approval</h2></div><div class="card pending">${pending.map(i=>pendingRow(c,i)).join('')}</div>`:''}
-   ${approved.length?`<div class="section-head"><h2>Completed</h2></div><div class="card">${approved.map(i=>`<div class="task"><div><div class="task-title">✅ ${escapeHtml(chore(i.choreId).name)}</div><div class="small muted">Approved</div></div></div>`).join('')}</div>`:''}
- `,kidNav());
-}
-function taskRow(c,i){
- const ch=chore(i.choreId); const reward=ch.reward?fmt(c,ch.reward):(ch.type==='responsibility'?'Responsibility':'No reward');
- return `<div class="task"><div><div class="task-title">${escapeHtml(ch.name)}</div><div class="row"><span class="tag">${ch.category}</span><span class="small muted">${ch.due?`Due ${ch.due}`:''}</span></div><div class="reward small" style="margin-top:6px">${reward}</div></div>
- <button class="done-btn" onclick="markDone('${i.id}')">DONE</button></div>`;
-}
-function pendingRow(c,i){
- const ch=chore(i.choreId);return `<div class="task"><div><div class="task-title">⏳ ${escapeHtml(ch.name)}</div><div class="small muted">Waiting for Parent Approval</div></div><span class="tag warn">Pending</span></div>`;
-}
-function markDone(id){
- const i=db.instances.find(x=>x.id===id), ch=chore(i.choreId), c=child(i.childId);
- if(ch.approval){i.status='pending';i.submittedAt=nowTime();db.approvals.push({id:uuid(),kind:'chore',instanceId:i.id,childId:i.childId,title:ch.name,amount:ch.reward,status:'pending'});toast('Sent for parent approval')}
- else {i.status='approved';if(ch.reward)addLedger(c.id,ch.reward,ch.name,'chore','Auto-approved');toast('Completed!')}
- save();render();
-}
-function addLedger(childId,amount,reason,type='adjustment',approvedBy='Parent'){
- db.ledger.unshift({id:uuid(),date:todayISO(),time:nowTime(),childId,reason,amount:Number(amount),type,approvedBy});
-}
-function kidRewards(c){
- const recent=db.ledger.filter(t=>t.childId===c.id).slice(0,12);
- const redeem=c.rewardType==='minutes'?`<div class="section-head"><h2>Use tablet time</h2></div><div class="card"><p>Available today: up to ${db.family.settings.dailyTabletLimit} minutes.</p><div class="row" style="margin-top:12px">${[15,30,60].map(n=>`<button class="secondary" onclick="requestRedemption('${c.id}',${n})">${n} min</button>`).join('')}<button class="secondary" onclick="customRedeem('${c.id}')">Custom</button></div></div>`:`<div class="section-head"><h2>This week</h2></div>${teenSettlement(c)}`;
- return `<h1>Rewards</h1><p>Every change is saved in your history.</p>
- <div class="card hero" style="margin-top:15px"><div class="small muted">CURRENT BALANCE</div><div class="big-balance">${fmt(c,bal(c))}</div></div>${redeem}
- <div class="section-head"><h2>History</h2></div><div class="card">${recent.map(t=>ledgerRow(c,t)).join('')||'<div class="empty">No transactions yet.</div>'}</div>`;
-}
-function ledgerRow(c,t){
- const positive=t.amount>=0;
- return `<div class="task"><div><div class="task-title">${escapeHtml(t.reason)}</div><div class="small muted">${t.date} • ${t.time} • ${t.type}</div></div><div class="${positive?'ledger-pos':'ledger-neg'}">${positive?'+':''}${fmt(c,t.amount)}</div></div>`;
-}
-function requestRedemption(childId,amount){
- const c=child(childId);
- if(amount<db.family.settings.minRedemption)return toast(`Minimum is ${db.family.settings.minRedemption} minutes`);
- if(amount>Math.min(db.family.settings.dailyTabletLimit,bal(c)))return toast('That exceeds the available limit or balance');
- db.approvals.push({id:uuid(),kind:'redemption',childId,title:'Tablet time request',amount,status:'pending'});
- toast('Tablet request sent to parent');save();render();
-}
-function customRedeem(childId){
- modal(`<h2>Custom tablet time</h2><label>Minutes<input id="customMinutes" class="input" type="number" min="${db.family.settings.minRedemption}" step="5" value="${db.family.settings.minRedemption}"></label><button class="primary" style="width:100%;margin-top:14px" onclick="doCustomRedeem('${childId}')">Request time</button>`);
-}
-function doCustomRedeem(id){const n=Number(document.getElementById('customMinutes').value);closeModal();requestRedemption(id,n)}
-function teenSettlement(c){
- const p=db.payments.find(x=>x.childId===c.id&&x.status==='unpaid');
- if(!p)return `<div class="card"><b>All caught up</b><p>No unpaid weekly settlement.</p></div>`;
- return `<div class="card"><div class="grid cols-2"><div><span class="small muted">Earned</span><b style="display:block">${money(p.earned)}</b></div><div><span class="small muted">Deductions</span><b style="display:block">${money(p.deductions)}</b></div><div><span class="small muted">Bonuses</span><b style="display:block">${money(p.bonuses)}</b></div><div><span class="small muted">TOTAL OWED</span><b style="display:block;font-size:25px">${money(p.total)}</b></div></div><div class="tag warn" style="margin-top:12px">Parent marks payout as paid</div></div>`;
-}
-function kidJobs(c){
- const jobs=db.chores.filter(ch=>ch.type==='bonus'&&ch.active&&ch.childIds.includes(c.id));
- return `<h1>Bonus jobs</h1><p>Optional ways to earn extra.</p><div class="section-head"><h2>Available</h2></div><div class="grid">${jobs.map(ch=>`<div class="card row between"><div><h3>${escapeHtml(ch.name)}</h3><div class="small muted">${ch.category}</div><div class="reward" style="margin-top:5px">+${fmt(c,ch.reward)}</div></div><button class="primary" onclick="claimBonus('${ch.id}','${c.id}')">Claim</button></div>`).join('')||'<div class="card empty">No bonus jobs right now.</div>'}</div>`;
-}
-function claimBonus(choreId,childId){
- const exists=db.instances.find(i=>i.choreId===choreId&&i.childId===childId&&i.date===todayISO()&&['todo','pending'].includes(i.status));
- if(exists)return toast('Already claimed');
- db.instances.push({id:uuid(),choreId,childId,date:todayISO(),status:'todo'});toast('Job claimed — it is on Today now');save();render();
-}
-function kidProgress(c){
- return `<h1>Progress</h1><p>Consistency beats perfection.</p><div class="grid cols-2" style="margin-top:16px"><div class="card"><div class="ring" style="--pct:${c.weeklyPct};margin:auto"><b>${c.weeklyPct}%</b></div><p style="text-align:center;margin-top:10px">Weekly completion</p></div><div class="card"><div style="font-size:40px;text-align:center">🔥</div><div style="font-size:28px;text-align:center;font-weight:900">${c.streak}</div><p style="text-align:center">Day streak</p></div></div><div class="section-head"><h2>Badges</h2></div><div class="grid cols-2">${c.badges.map((b,i)=>`<div class="badge"><div class="ico">${['🏆','⭐','🧹'][i%3]}</div><div><b>${b}</b><div class="small muted">Milestone earned</div></div></div>`).join('')}</div>`;
-}
-function parentNav(){
- const tabs=[['home','⌂','Home'],['chores','✓','Chores'],['approvals','◎','Approvals'],['kids','☺','Kids'],['reports','▥','Reports'],['settings','⚙','Settings']];
- return `<nav class="bottomnav"><div class="navwrap">${tabs.map(t=>`<button class="navitem ${db.session.parentTab===t[0]?'active':''}" onclick="parentTab('${t[0]}')"><span>${t[1]}</span>${t[2]}</button>`).join('')}</div></nav>`;
-}
-function parentTab(t){db.session.parentTab=t;save();render()}
-function parentView(){
- let body='';
- if(db.session.parentTab==='chores')body=parentChores();
- else if(db.session.parentTab==='approvals')body=parentApprovals();
- else if(db.session.parentTab==='kids')body=parentKids();
- else if(db.session.parentTab==='reports')body=parentReports();
- else if(db.session.parentTab==='settings')body=parentSettings();
- else body=parentHome();
- return appShell(body,parentNav());
-}
-function parentHome(){
- const pend=db.approvals.filter(a=>a.status==='pending').length;
- const cards=db.children.map(c=>{const s=statusCounts(c);return `<div class="card"><div class="row between"><div class="row"><div class="avatar">${c.avatar}</div><div><h3>${c.name}</h3><div class="small muted">Age ${c.age}</div></div></div><div class="balance">${fmt(c,bal(c))}</div></div><div class="divider"></div><div class="row between"><span>${s.done} done</span><span>${s.remaining} left</span><span>${s.pending} pending</span></div></div>`}).join('');
- return `<div class="row between"><div><div class="small muted">PARENT MODE</div><h1>Family overview</h1><p>Manage chores, approvals, rewards and payouts.</p></div><button class="secondary" onclick="lockParent()">Lock</button></div>
- <div class="grid cols-4" style="margin-top:15px"><div class="card stat"><span class="small muted">Pending approvals</span><b>${pend}</b></div><div class="card stat"><span class="small muted">Active chores</span><b>${db.chores.filter(c=>c.active).length}</b></div><div class="card stat"><span class="small muted">Bonus jobs</span><b>${db.chores.filter(c=>c.active&&c.type==='bonus').length}</b></div><div class="card stat"><span class="small muted">Kids</span><b>${db.children.length}</b></div></div>
- <div class="section-head"><h2>Kids</h2><button class="primary" onclick="addChildModal()">+ Add child</button></div><div class="grid cols-3">${cards}</div>`;
-}
-function lockParent(){db.session.parentUnlocked=false;db.session.mode='family';save();render()}
-function parentChores(){
- const rows=db.chores.map(ch=>`<div class="task"><div><div class="task-title">${escapeHtml(ch.name)}</div><div class="row"><span class="tag">${ch.type}</span><span class="small muted">${ch.schedule}</span><span class="small muted">${ch.childIds.map(id=>child(id)?.name).filter(Boolean).join(', ')}</span></div></div><button class="secondary" onclick="editChore('${ch.id}')">Edit</button></div>`).join('');
- return `<div class="row between"><div><h1>Chores</h1><p>Assign recurring work, responsibilities and bonus jobs.</p></div><button class="primary" onclick="newChoreChoice()">+ Add chore</button></div>
- <div class="tabs" style="margin-top:16px"><button class="tab active">Active chores</button><button class="tab" onclick="showLibrary()">Chore library</button><button class="tab" onclick="showPacks()">Chore packs</button></div>
- <div class="card" style="margin-top:12px">${rows}</div>`;
-}
-function newChoreChoice(){
- modal(`<h2>Add chore</h2><button class="secondary" style="width:100%;margin:6px 0" onclick="closeModal();showLibrary()">Choose From Chore Library</button><button class="secondary" style="width:100%;margin:6px 0" onclick="closeModal();customChoreModal()">Create Custom Chore</button>`);
-}
-function showLibrary(){
- const ageOptions=['All','3–5','6–8','9–12','13–15','16–18'].map(x=>`<option>${x}</option>`).join('');
- modal(`<div class="row between"><div><h2>Chore Library</h2><p>Recommended chores appear first. Age ranges are suggestions only.</p></div></div>
- <div class="toolbar" style="margin:14px 0"><input id="libSearch" class="search" placeholder="Search chores" oninput="filterLibrary()"><select id="libAge" class="select" onchange="filterLibrary()">${ageOptions}</select><select id="libCat" class="select" onchange="filterLibrary()"><option>All categories</option>${[...new Set(choreLibrary.map(x=>x.category))].map(x=>`<option>${x}</option>`).join('')}</select></div>
- <div class="tabs" style="margin-bottom:11px"><button class="tab active">Recommended</button><button class="tab">Favorites</button><button class="tab">Recently used</button><button class="tab">Popular</button></div>
- <div id="libList" class="library"></div><div style="position:sticky;bottom:0;background:#fff;padding-top:12px"><button class="primary" style="width:100%" onclick="addSelectedLibrary()">ADD SELECTED CHORES</button></div>`);
- filterLibrary();
-}
-function filterLibrary(){
- const q=(document.getElementById('libSearch')?.value||'').toLowerCase(), age=document.getElementById('libAge')?.value||'All', cat=document.getElementById('libCat')?.value||'All categories';
- const items=choreLibrary.filter(x=>(!q||x.name.toLowerCase().includes(q)||x.category.toLowerCase().includes(q))&&(age==='All'||x.age===age)&&(cat==='All categories'||x.category===cat));
- document.getElementById('libList').innerHTML=items.map(x=>`<div class="libcard ${db.selectedLib.includes(x.id)?'selected':''}" onclick="toggleLib('${x.id}')"><div class="lib-top"><div><b>${x.name}</b><div class="small muted" style="margin-top:5px">Ages ${x.age} • ${x.category}</div></div><input class="check" type="checkbox" ${db.selectedLib.includes(x.id)?'checked':''} onclick="event.stopPropagation();toggleLib('${x.id}')"></div><div class="divider"></div><div class="small muted">Suggested: ${x.frequency}</div><div class="small muted">Difficulty: ${x.difficulty}</div><span class="tag blue" style="margin-top:8px">${x.suggestedType}</span></div>`).join('')||'<div class="empty">No matches</div>';
-}
-function toggleLib(id){db.selectedLib.includes(id)?db.selectedLib=db.selectedLib.filter(x=>x!==id):db.selectedLib.push(id);save();filterLibrary()}
-function addSelectedLibrary(){
- if(!db.selectedLib.length)return toast('Select at least one chore');
- const names=db.selectedLib.map(id=>choreLibrary.find(x=>x.id===id)?.name).filter(Boolean);
- closeModal();bulkAssignModal(names);
-}
-function bulkAssignModal(names){
- modal(`<h2>Add ${names.length} chore${names.length>1?'s':''}</h2><p>${names.map(escapeHtml).join(' • ')}</p><div class="divider"></div>
- <label>Assign child<select id="bulkChild" class="input">${db.children.map(c=>`<option value="${c.id}">${c.name}</option>`).join('')}</select></label>
- <label style="display:block;margin-top:12px">Type<select id="bulkType" class="input"><option value="responsibility">Responsibility</option><option value="earned">Earned Chore</option><option value="bonus">Bonus Job</option></select></label>
- <label style="display:block;margin-top:12px">Schedule<select id="bulkSchedule" class="input"><option>Daily</option><option>Weekly</option><option>One-time</option><option>Bonus job</option></select></label>
- <button class="primary" style="width:100%;margin-top:16px" onclick='commitBulk(${JSON.stringify(names)})'>Add chores</button>`);
-}
-function commitBulk(names){
- const childId=document.getElementById('bulkChild').value,type=document.getElementById('bulkType').value,schedule=document.getElementById('bulkSchedule').value,c=child(childId);
- names.forEach(name=>{
-  const lib=choreLibrary.find(x=>x.name===name);const id=uuid();
-  db.chores.push({id,name,category:lib?.category||'Helping Family',type,childIds:[childId],reward:0,deduction:0,approval:true,schedule,due:'',active:true});
-  if(type!=='bonus')db.instances.push({id:uuid(),choreId:id,childId,date:todayISO(),status:'todo'});
- });
- db.selectedLib=[];save();closeModal();toast('Chores added');render();
-}
-function customChoreModal(ch=null){
- const x=ch||{name:'',category:'Helping Family',type:'responsibility',childIds:[db.children[0].id],reward:0,deduction:0,approval:true,schedule:'Daily',due:'',active:true};
- modal(`<h2>${ch?'Edit':'Create'} Chore</h2><div class="formgrid">
- <label>Chore name<input id="ceName" class="input" value="${escapeHtml(x.name)}"></label>
- <label>Assigned child<select id="ceChild" class="input">${db.children.map(c=>`<option value="${c.id}" ${x.childIds.includes(c.id)?'selected':''}>${c.name}</option>`).join('')}</select></label>
- <label>Category<select id="ceCat" class="input">${[...new Set(choreLibrary.map(y=>y.category))].map(y=>`<option ${x.category===y?'selected':''}>${y}</option>`).join('')}</select></label>
- <label>Type<select id="ceType" class="input"><option value="responsibility" ${x.type==='responsibility'?'selected':''}>Responsibility</option><option value="earned" ${x.type==='earned'?'selected':''}>Earned Chore</option><option value="bonus" ${x.type==='bonus'?'selected':''}>Bonus Job</option></select></label>
- <label>Schedule<select id="ceSchedule" class="input"><option ${x.schedule==='Daily'?'selected':''}>Daily</option><option ${x.schedule.startsWith('Weekly')?'selected':''}>Weekly</option><option ${x.schedule==='One-time'?'selected':''}>One-time</option><option ${x.schedule==='Bonus job'?'selected':''}>Bonus job</option></select></label>
- <label>Due time<input id="ceDue" class="input" value="${x.due||''}" placeholder="6:00 PM"></label>
- <label>Reward<input id="ceReward" class="input" type="number" step=".5" value="${x.reward}"></label>
- <label>Missed deduction<input id="ceDed" class="input" type="number" step=".5" value="${x.deduction}"></label>
- <label>Difficulty<select id="ceDiff" class="input"><option>Easy</option><option>Medium</option><option>Hard</option></select></label>
- <label>Approval<select id="ceApproval" class="input"><option value="true" ${x.approval?'selected':''}>Parent approval required</option><option value="false" ${!x.approval?'selected':''}>Auto approve</option></select></label>
- </div><div class="row" style="margin-top:16px"><button class="primary" onclick="saveChoreEditor('${ch?.id||''}')">${ch?'Save changes':'Create chore'}</button>${ch?`<button class="secondary danger" onclick="deleteChore('${ch.id}')">Delete</button>`:''}</div>`);
-}
-function editChore(id){customChoreModal(chore(id))}
-function saveChoreEditor(id){
- const obj={name:document.getElementById('ceName').value,childIds:[document.getElementById('ceChild').value],category:document.getElementById('ceCat').value,type:document.getElementById('ceType').value,schedule:document.getElementById('ceSchedule').value,due:document.getElementById('ceDue').value,reward:Number(document.getElementById('ceReward').value||0),deduction:Number(document.getElementById('ceDed').value||0),difficulty:document.getElementById('ceDiff').value,approval:document.getElementById('ceApproval').value==='true',active:true};
- if(id){Object.assign(chore(id),obj)}else{obj.id=uuid();db.chores.push(obj);if(obj.type!=='bonus')db.instances.push({id:uuid(),choreId:obj.id,childId:obj.childIds[0],date:todayISO(),status:'todo'})}
- save();closeModal();toast('Saved');render();
-}
-function deleteChore(id){db.chores=db.chores.filter(x=>x.id!==id);db.instances=db.instances.filter(x=>x.choreId!==id);save();closeModal();toast('Chore deleted');render()}
-function showPacks(){
- modal(`<h2>Chore Packs</h2><p>Add a whole routine and edit it afterward.</p><div class="grid" style="margin-top:14px">${packs.map((p,i)=>`<div class="card"><div class="row between"><div><h3>${p.name}</h3><div class="small muted">${p.items.length} chores</div></div><button class="primary" onclick="addPack(${i})">Add pack</button></div><div class="small muted" style="margin-top:10px">${p.items.join(' • ')}</div></div>`).join('')}</div>`);
-}
-function addPack(i){const p=packs[i];closeModal();bulkAssignModal(p.items)}
-function parentApprovals(){
- const pending=db.approvals.filter(a=>a.status==='pending');
- return `<h1>Approvals</h1><p>Nothing changes a balance until you approve it.</p><div class="section-head"><h2>Pending</h2><span class="tag warn">${pending.length}</span></div><div class="grid">${pending.map(a=>approvalCard(a)).join('')||'<div class="card empty">You’re all caught up.</div>'}</div>`;
-}
-function approvalCard(a){
- const c=child(a.childId);const unit=c.rewardType==='money'?money(a.amount):`${a.amount} min`;
- return `<div class="card"><div class="row between"><div><span class="tag ${a.kind==='redemption'?'warn':'blue'}">${a.kind}</span><h3 style="margin-top:8px">${escapeHtml(a.title)}</h3><div class="small muted">${c.name} • ${a.kind==='redemption'?'-':'+'}${unit}</div></div><div class="row"><button class="secondary reject" onclick="rejectApproval('${a.id}')">Reject</button><button class="primary success" onclick="approve('${a.id}')">Approve</button></div></div></div>`;
-}
-function approve(id){
- const a=db.approvals.find(x=>x.id===id); if(!a)return;
- const c=child(a.childId);
- if(a.kind==='chore'){const i=db.instances.find(x=>x.id===a.instanceId);if(i)i.status='approved';if(a.amount)addLedger(c.id,a.amount,a.title,'chore','Parent')}
- if(a.kind==='redemption'){addLedger(c.id,-Math.abs(a.amount),'Tablet Time Used','redemption','Parent');db.redemptions.push({id:uuid(),childId:c.id,amount:a.amount,date:todayISO(),status:'approved'})}
- a.status='approved';save();toast('Approved and ledger updated');render();
-}
-function rejectApproval(id){
- const a=db.approvals.find(x=>x.id===id);if(!a)return;a.status='rejected';
- if(a.kind==='chore'){const i=db.instances.find(x=>x.id===a.instanceId);if(i)i.status='todo'}
- save();toast('Rejected');render();
-}
-function parentKids(){
- return `<div class="row between"><div><h1>Kids</h1><p>Profiles, reward types, PINs and balances.</p></div><button class="primary" onclick="addChildModal()">+ Add child</button></div><div class="grid cols-3" style="margin-top:15px">${db.children.map(c=>`<div class="card"><div class="row"><div class="avatar">${c.avatar}</div><div><h3>${c.name}</h3><div class="small muted">Age ${c.age} • ${c.rewardType==='money'?'Money':'Tablet minutes'}</div></div></div><div class="big-balance" style="font-size:30px">${fmt(c,bal(c))}</div><div class="row"><span class="tag good">🔥 ${c.streak} days</span><span class="tag blue">${c.weeklyPct}% week</span></div><button class="secondary" style="width:100%;margin-top:12px" onclick="adjustBalance('${c.id}')">Balance adjustment</button></div>`).join('')}</div>`;
-}
-function addChildModal(){
- modal(`<h2>Add child</h2><div class="formgrid"><label>Name<input id="newName" class="input"></label><label>Age<input id="newAge" class="input" type="number" min="3" max="18"></label><label>Reward type<select id="newReward" class="input"><option value="minutes">Tablet minutes</option><option value="money">Money</option></select></label><label>4-digit PIN<input id="newPin" class="input" inputmode="numeric" maxlength="4" value="0000"></label></div><button class="primary" style="width:100%;margin-top:14px" onclick="commitChild()">Add child</button>`);
-}
-function commitChild(){const name=document.getElementById('newName').value.trim();if(!name)return toast('Enter a name');const c={id:uuid(),name,age:Number(document.getElementById('newAge').value||5),rewardType:document.getElementById('newReward').value,pin:document.getElementById('newPin').value||'0000',streak:0,avatar:name[0].toUpperCase(),weeklyPct:0,badges:[]};db.children.push(c);save();closeModal();toast('Child added');render()}
-function adjustBalance(id){
- const c=child(id);modal(`<h2>Adjust ${c.name}'s balance</h2><p>Positive adds value; negative subtracts it. This creates a permanent ledger entry.</p><label style="display:block;margin-top:14px">Amount (${c.rewardType==='money'?'dollars':'minutes'})<input id="adjAmount" class="input" type="number" step="${c.rewardType==='money'?'.5':'5'}"></label><label style="display:block;margin-top:12px">Reason<input id="adjReason" class="input" placeholder="Parent adjustment"></label><button class="primary" style="width:100%;margin-top:14px" onclick="commitAdjust('${id}')">Save adjustment</button>`);
-}
-function commitAdjust(id){addLedger(id,Number(document.getElementById('adjAmount').value||0),document.getElementById('adjReason').value||'Parent adjustment','adjustment','Parent');save();closeModal();toast('Ledger updated');render()}
-function parentReports(){
- const total=db.instances.length,approved=db.instances.filter(i=>i.status==='approved').length,pending=db.instances.filter(i=>i.status==='pending').length,missed=1;
- const rewards=db.ledger.filter(t=>t.amount>0).reduce((a,t)=>a+t.amount,0), deductions=db.ledger.filter(t=>t.amount<0&&t.type==='deduction').reduce((a,t)=>a+Math.abs(t.amount),0);
- return `<h1>Reports</h1><p>Filter-ready reporting foundation with family, child, chore, category and reward data.</p><div class="toolbar" style="margin-top:16px"><select class="select"><option>All children</option>${db.children.map(c=>`<option>${c.name}</option>`).join('')}</select><select class="select"><option>This week</option><option>This month</option><option>Today</option></select><select class="select"><option>All categories</option>${[...new Set(db.chores.map(c=>c.category))].map(x=>`<option>${x}</option>`).join('')}</select></div>
- <div class="grid cols-4" style="margin-top:13px"><div class="card stat"><span class="small muted">Completed</span><b>${approved}</b></div><div class="card stat"><span class="small muted">Pending</span><b>${pending}</b></div><div class="card stat"><span class="small muted">Missed</span><b>${missed}</b></div><div class="card stat"><span class="small muted">Completion</span><b>${total?Math.round(approved/total*100):0}%</b></div></div>
- <div class="section-head"><h2>Completion by child</h2></div><div class="card">${db.children.map(c=>{const s=statusCounts(c),p=s.total?Math.round(s.done/s.total*100):0;return `<div style="margin:13px 0"><div class="row between"><b>${c.name}</b><span>${p}%</span></div><div class="progress" style="margin-top:6px"><i style="width:${p}%"></i></div></div>`}).join('')}</div>
- <div class="section-head"><h2>Ledger activity</h2></div><div class="card"><table class="table"><thead><tr><th>Child</th><th>Reason</th><th>Type</th><th>Amount</th></tr></thead><tbody>${db.ledger.slice(0,20).map(t=>{const c=child(t.childId);return `<tr><td>${c.name}</td><td>${escapeHtml(t.reason)}</td><td>${t.type}</td><td class="${t.amount>=0?'ledger-pos':'ledger-neg'}">${t.amount>=0?'+':''}${fmt(c,t.amount)}</td></tr>`}).join('')}</tbody></table></div>`;
-}
-function parentSettings(){
- return `<h1>Settings</h1><p>Family defaults and controls.</p>
- <div class="grid cols-2" style="margin-top:16px"><div class="card"><h3>Tablet time</h3><div class="formgrid" style="margin-top:12px"><label>Daily maximum<input id="setLimit" class="input" type="number" value="${db.family.settings.dailyTabletLimit}"></label><label>Minimum redemption<input id="setMin" class="input" type="number" value="${db.family.settings.minRedemption}"></label></div></div><div class="card"><h3>Suggested tablet rewards</h3><div class="formgrid" style="margin-top:12px"><label>Small<input id="setSm" class="input" type="number" value="${db.family.settings.smallMinutes}"></label><label>Medium<input id="setMm" class="input" type="number" value="${db.family.settings.mediumMinutes}"></label><label>Large<input id="setLm" class="input" type="number" value="${db.family.settings.largeMinutes}"></label></div></div><div class="card"><h3>Suggested money rewards</h3><div class="formgrid" style="margin-top:12px"><label>Small<input id="setSd" class="input" type="number" step=".5" value="${db.family.settings.smallMoney}"></label><label>Medium<input id="setMd" class="input" type="number" step=".5" value="${db.family.settings.mediumMoney}"></label><label>Large<input id="setLd" class="input" type="number" step=".5" value="${db.family.settings.largeMoney}"></label></div></div><div class="card"><h3>Prototype data</h3><p style="margin:8px 0 12px">Reset all local data back to the seeded three-child demo.</p><button class="secondary danger" onclick="resetData()">Reset demo</button></div></div>
- <button class="primary" style="margin-top:14px" onclick="saveSettings()">Save settings</button>
- <div class="section-head"><h2>Teen weekly settlement</h2></div>${db.children.filter(c=>c.rewardType==='money').map(c=>parentSettlement(c)).join('')}`;
-}
-function parentSettlement(c){
- const p=db.payments.find(x=>x.childId===c.id&&x.status==='unpaid');
- if(!p)return `<div class="card"><b>${c.name}</b><p>No unpaid settlement.</p></div>`;
- return `<div class="card"><div class="row between"><div><h3>${c.name}</h3><div class="small muted">Earned ${money(p.earned)} • Deductions ${money(p.deductions)} • Bonuses ${money(p.bonuses)}</div><div style="font-size:30px;font-weight:900;margin-top:6px">${money(p.total)} owed</div></div><button class="primary success" onclick="markPaid('${p.id}')">MARK PAID</button></div></div>`;
-}
-function markPaid(id){const p=db.payments.find(x=>x.id===id);if(!p)return;p.status='paid';addLedger(p.childId,-Math.abs(p.total),'Weekly payout paid','payment','Parent');save();toast('Payment marked paid and balance cleared by ledger entry');render()}
-function saveSettings(){Object.assign(db.family.settings,{dailyTabletLimit:Number(setLimit.value),minRedemption:Number(setMin.value),smallMinutes:Number(setSm.value),mediumMinutes:Number(setMm.value),largeMinutes:Number(setLm.value),smallMoney:Number(setSd.value),mediumMoney:Number(setMd.value),largeMoney:Number(setLd.value)});save();toast('Settings saved')}
-function resetData(){localStorage.removeItem(DB_KEY);db=seed();save();toast('Demo reset');render()}
+function toast(msg){document.querySelector('.toast')?.remove();const d=document.createElement('div');d.className='toast';d.textContent=msg;document.body.appendChild(d);setTimeout(()=>d.remove(),2600)}
+function errText(e){return e?.message||String(e||'Something went wrong')}
 function modal(html){closeModal();const d=document.createElement('div');d.id='modalBack';d.className='modalback';d.innerHTML=`<div class="modal"><div class="row between" style="margin-bottom:8px"><div></div><button class="icon-btn" onclick="closeModal()">✕</button></div>${html}</div>`;d.onclick=e=>{if(e.target===d)closeModal()};document.body.appendChild(d)}
 function closeModal(){document.getElementById('modalBack')?.remove()}
-function render(){
- const root=document.getElementById('app');
- root.innerHTML=db.session.mode==='kid'&&db.session.kidId?kidView():db.session.mode==='parent'&&db.session.parentUnlocked?parentView():familyView();
+function child(id){return state.children.find(c=>c.id===id)}
+function chore(id){return state.chores.find(c=>c.id===id)}
+function completionFor(choreId,childId){return state.completions.find(x=>x.chore_id===choreId&&x.child_id===childId&&x.due_date===today())}
+function balance(id){return Number(state.balances[id]||0)}
+function pendingCount(){return state.completions.filter(x=>x.status==='pending').length+state.redemptions.filter(x=>x.status==='pending').length}
+
+async function init(){
+ const {data:{session}}=await sb.auth.getSession();state.session=session;state.user=session?.user||null;
+ sb.auth.onAuthStateChange(async(_event,s)=>{state.session=s;state.user=s?.user||null;if(s)await loadData();else{resetState();render()}});
+ if(session)await loadData();else{state.loading=false;render()}
 }
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
-render();
+function resetState(){Object.assign(state,{family:null,settings:null,children:[],balances:{},chores:[],assignments:[],completions:[],ledger:[],redemptions:[],library:[],badges:[],streaks:[],view:'family',kidId:null,parentUnlocked:false,loading:false})}
+
+async function loadData(){
+ state.loading=true;render();
+ try{
+  const {data:fams,error:fe}=await sb.from('families').select('id,name,owner_user_id,created_at').order('created_at',{ascending:true}).limit(1);if(fe)throw fe;
+  state.family=fams?.[0]||null;
+  if(!state.family){state.loading=false;render();return}
+  const fid=state.family.id;
+  const [settingsR,childrenR,balancesR,choresR,assignR,libraryR,badgesR,streaksR]=await Promise.all([
+   sb.from('family_settings').select('*').eq('family_id',fid).maybeSingle(),
+   sb.from('children').select('id,family_id,name,age,reward_type,avatar,active,created_at').eq('family_id',fid).eq('active',true).order('created_at'),
+   sb.from('child_balances').select('child_id,balance,reward_type').eq('family_id',fid),
+   sb.from('chores').select('*').eq('family_id',fid).order('created_at'),
+   sb.from('chore_assignments').select('*').eq('family_id',fid),
+   sb.from('chore_library').select('id,name,category,min_age,max_age,suggested_frequency,difficulty,suggested_type,popular_score').eq('active',true).order('popular_score',{ascending:false}).limit(250),
+   sb.from('badges').select('*').eq('family_id',fid).order('awarded_at',{ascending:false}),
+   sb.from('streaks').select('*').eq('family_id',fid)
+  ]);
+  for(const r of [settingsR,childrenR,balancesR,choresR,assignR,libraryR,badgesR,streaksR])if(r.error)throw r.error;
+  state.settings=settingsR.data||{};state.children=childrenR.data||[];state.chores=choresR.data||[];state.assignments=assignR.data||[];state.library=libraryR.data||[];state.badges=badgesR.data||[];state.streaks=streaksR.data||[];
+  state.balances={};for(const b of balancesR.data||[])state.balances[b.child_id]=Number(b.balance||0);
+  await ensureTodayCompletions();
+  const [compR,ledgerR,redR]=await Promise.all([
+   sb.from('chore_completions').select('*').eq('family_id',fid).gte('due_date',new Date(Date.now()-14*86400000).toISOString().slice(0,10)).order('due_date',{ascending:false}),
+   sb.from('reward_transactions').select('*').eq('family_id',fid).order('created_at',{ascending:false}).limit(150),
+   sb.from('tablet_redemptions').select('*').eq('family_id',fid).order('requested_at',{ascending:false}).limit(100)
+  ]);
+  for(const r of [compR,ledgerR,redR])if(r.error)throw r.error;
+  state.completions=compR.data||[];state.ledger=ledgerR.data||[];state.redemptions=redR.data||[];
+ }catch(e){console.error(e);toast(errText(e))}
+ state.loading=false;render();
+}
+
+async function ensureTodayCompletions(){
+ if(!state.family)return;
+ const rows=[];
+ for(const a of state.assignments){const ch=state.chores.find(x=>x.id===a.chore_id);if(!ch||!ch.active||ch.chore_type==='bonus')continue;rows.push({family_id:state.family.id,chore_id:a.chore_id,child_id:a.child_id,due_date:today(),status:'todo'})}
+ if(rows.length){const {error}=await sb.from('chore_completions').upsert(rows,{onConflict:'chore_id,child_id,due_date',ignoreDuplicates:true});if(error)console.warn(error)}
+}
+
+async function signIn(){const email=$('email').value.trim(),password=$('password').value;const {error}=await sb.auth.signInWithPassword({email,password});if(error)toast(errText(error))}
+async function signUp(){const email=$('email').value.trim(),password=$('password').value;if(password.length<6)return toast('Use at least 6 characters');const {data,error}=await sb.auth.signUp({email,password});if(error)return toast(errText(error));if(!data.session)toast('Account created. Check your email to confirm, then sign in.');else toast('Account created')}
+async function signOut(){await sb.auth.signOut()}
+async function createFamily(){const name=$('familyName').value.trim(),pin=$('parentPin').value.trim();if(!name)return toast('Enter a family name');if(!/^\d{4,8}$/.test(pin))return toast('Parent PIN must be 4–8 digits');const {data,error}=await sb.rpc('create_family',{family_name:name});if(error)return toast(errText(error));const {error:pe}=await sb.rpc('set_parent_pin',{target_family:data,new_pin:pin});if(pe)return toast(errText(pe));toast('Family created');await loadData()}
+
+function loginView(){return `<main><div class="login card"><div class="brand">Family<span>Flow</span></div><h1 style="margin-top:18px">Your family, in sync.</h1><p>Sign in as a parent. Kids use their own PIN after you sign in.</p><div style="margin-top:18px"><label>Email<input id="email" class="input" type="email" autocomplete="email" placeholder="you@example.com"></label><label style="display:block;margin-top:12px">Password<input id="password" class="input" type="password" autocomplete="current-password" placeholder="6+ characters"></label></div><div class="row" style="margin-top:14px"><button class="primary" onclick="signIn()">Sign in</button><button class="secondary" onclick="signUp()">Create account</button></div><div class="notice" style="margin-top:16px">No Google login is required. Your family data is stored in the FamilyFlow Supabase database.</div></div></main>`}
+function onboardingView(){return `<main><div class="login card"><div class="brand">Family<span>Flow</span></div><h1 style="margin-top:18px">Create your family</h1><p>This is the one-time setup for this parent account.</p><label style="display:block;margin-top:18px">Family name<input id="familyName" class="input" placeholder="The Ludwig Family"></label><label style="display:block;margin-top:12px">Parent PIN<input id="parentPin" class="input pin" inputmode="numeric" maxlength="8" placeholder="••••"></label><button class="primary" style="width:100%;margin-top:16px" onclick="createFamily()">Create FamilyFlow</button><button class="secondary" style="width:100%;margin-top:10px" onclick="signOut()">Sign out</button></div></main>`}
+
+function topbar(){return `<div class="topbar"><div class="brand">Family<span>Flow</span></div><div class="spacer"></div>${state.view==='kid'?`<button class="mode-btn" onclick="exitKid()">Family</button>`:''}${state.view==='parent'?`<button class="mode-btn" onclick="exitParent()">Family</button>`:''}<button class="icon-btn" onclick="signOut()" title="Sign out">↪</button></div>`}
+function familyView(){
+ const cards=state.children.map(c=>{const todays=state.completions.filter(x=>x.child_id===c.id&&x.due_date===today());const done=todays.filter(x=>x.status==='approved').length;const pct=todays.length?Math.round(done/todays.length*100):0;const streak=state.streaks.find(s=>s.child_id===c.id)?.current_daily||0;return `<button class="card kid-card" style="text-align:left;width:100%" onclick="kidPin('${c.id}')"><div class="avatar">${esc(c.avatar||c.name[0])}</div><div><h3>${esc(c.name)}</h3><div class="small muted">${done}/${todays.length} approved today • 🔥 ${streak} day streak</div><div class="progress" style="margin-top:8px"><i style="width:${pct}%"></i></div></div><div class="balance">${fmt(c,balance(c.id))}</div></button>`}).join('');
+ return `${topbar()}<main><div class="hero card"><div class="row between"><div><span class="tag blue">LIVE CLOUD DATA</span><h1>${esc(state.family.name)}</h1><p>Tap a child to enter Kid Mode, or unlock Parent Mode.</p></div><button class="primary" onclick="parentPin()">Parent Mode${pendingCount()?` • ${pendingCount()}`:''}</button></div></div><div class="section-head"><h2>Kids</h2><button class="secondary" onclick="parentPin('kids')">+ Add child</button></div>${state.children.length?`<div class="grid cols-2">${cards}</div>`:`<div class="card empty">No kids yet. Open Parent Mode to add your first child.</div>`}</main>`}
+
+function kidPin(id){const c=child(id);modal(`<h2>${esc(c.name)}</h2><p>Enter ${esc(c.name)}'s 4-digit PIN.</p><label style="display:block;margin-top:16px">PIN<input id="kidPinInput" class="input pin" inputmode="numeric" maxlength="4" type="password"></label><button class="primary" style="width:100%;margin-top:14px" onclick="verifyKid('${id}')">Open Kid Mode</button>`);setTimeout(()=>$('kidPinInput')?.focus(),100)}
+async function verifyKid(id){const pin=$('kidPinInput').value.trim();const {data,error}=await sb.rpc('verify_child_pin',{child:id,candidate_pin:pin});if(error)return toast(errText(error));if(!data)return toast('Wrong PIN');closeModal();state.kidId=id;state.view='kid';state.kidTab='today';render()}
+function exitKid(){state.kidId=null;state.view='family';render()}
+
+function kidView(){const c=child(state.kidId);if(!c)return familyView();const tabs=[['today','Today','✓'],['rewards','Rewards','★'],['jobs','Jobs','＋'],['progress','Progress','🔥']];let content=state.kidTab==='today'?kidToday(c):state.kidTab==='rewards'?kidRewards(c):state.kidTab==='jobs'?kidJobs(c):kidProgress(c);return `${topbar()}<main><div class="hero card"><div class="row between"><div><div class="row"><div class="avatar">${esc(c.avatar||c.name[0])}</div><div><h1 style="margin:0">Hi, ${esc(c.name)}!</h1><p>${fmt(c,balance(c.id))} available</p></div></div></div></div></div>${content}</main><div class="bottomnav"><div class="navwrap">${tabs.map(t=>`<button class="navitem ${state.kidTab===t[0]?'active':''}" onclick="kidTab('${t[0]}')"><span>${t[2]}</span>${t[1]}</button>`).join('')}</div></div>`}
+function kidTab(t){state.kidTab=t;render()}
+function kidToday(c){const rows=state.assignments.filter(a=>a.child_id===c.id).map(a=>chore(a.chore_id)).filter(ch=>ch&&ch.active&&ch.chore_type!=='bonus');if(!rows.length)return `<div class="section-head"><h2>Today</h2></div><div class="card empty">Nothing assigned today 🎉</div>`;return `<div class="section-head"><h2>Today</h2></div><div class="card">${rows.map(ch=>{const comp=completionFor(ch.id,c.id);const st=comp?.status||'todo';const reward=Number(ch.reward_amount||0);return `<div class="task"><div><div class="task-title">${esc(ch.name)}</div><div class="row"><span class="tag ${st==='approved'?'good':st==='pending'?'warn':st==='missed'?'bad':'blue'}">${st==='todo'?'TO DO':st.toUpperCase()}</span>${reward?`<span class="reward">+${fmt(c,reward)}</span>`:''}${ch.due_time?`<span class="small muted">Due ${esc(ch.due_time)}</span>`:''}</div></div>${st==='todo'?`<button class="done-btn" onclick="markDone('${comp?.id||''}','${ch.id}','${c.id}')">DONE</button>`:st==='pending'?`<span class="tag warn">Waiting for parent</span>`:st==='approved'?`<span class="tag good">✓ Approved</span>`:`<span class="tag">${esc(st)}</span>`}</div>`}).join('')}</div>`}
+async function markDone(compId,choreId,childId){try{let id=compId;if(!id){const {data,error}=await sb.from('chore_completions').insert({family_id:state.family.id,chore_id:choreId,child_id:childId,due_date:today(),status:'pending',submitted_at:new Date().toISOString()}).select('id').single();if(error)throw error;id=data.id}else{const {error}=await sb.from('chore_completions').update({status:'pending',submitted_at:new Date().toISOString()}).eq('id',id);if(error)throw error}toast('Sent to parent for approval');await loadData();state.view='kid';state.kidId=childId;state.kidTab='today'}catch(e){toast(errText(e))}}
+function kidRewards(c){const reqs=state.redemptions.filter(r=>r.child_id===c.id).slice(0,8);return `<div class="section-head"><h2>Rewards</h2></div><div class="card"><div class="small muted">Available balance</div><div class="big-balance">${fmt(c,balance(c.id))}</div>${c.reward_type==='minutes'?`<p>Trade earned minutes for tablet time.</p><div class="row" style="margin-top:14px">${[15,30,60].map(n=>`<button class="secondary" onclick="requestMinutes(${n})">${n} min</button>`).join('')}</div>`:`<p>Money is tracked in the permanent FamilyFlow ledger.</p>`}</div>${reqs.length?`<div class="section-head"><h2>Recent requests</h2></div><div class="card">${reqs.map(r=>`<div class="row between" style="padding:9px 0;border-bottom:1px solid var(--line)"><span>${r.minutes} min</span><span class="tag ${r.status==='approved'?'good':r.status==='pending'?'warn':'bad'}">${esc(r.status)}</span></div>`).join('')}</div>`:''}`}
+async function requestMinutes(n){const c=child(state.kidId);const {error}=await sb.rpc('request_tablet_redemption',{target_family:state.family.id,target_child:c.id,requested_minutes:n});if(error)return toast(errText(error));toast('Request sent to parent');await loadData();state.view='kid';state.kidId=c.id;state.kidTab='rewards'}
+function kidJobs(c){const jobs=state.assignments.filter(a=>a.child_id===c.id).map(a=>chore(a.chore_id)).filter(ch=>ch&&ch.active&&ch.chore_type==='bonus');return `<div class="section-head"><h2>Bonus Jobs</h2></div>${jobs.length?`<div class="grid">${jobs.map(ch=>`<div class="card"><div class="row between"><div><h3>${esc(ch.name)}</h3><div class="reward" style="margin-top:6px">+${fmt(c,ch.reward_amount)}</div></div><button class="primary" onclick="claimBonus('${ch.id}','${c.id}')">Claim job</button></div></div>`).join('')}</div>`:`<div class="card empty">No bonus jobs available.</div>`}`}
+async function claimBonus(choreId,childId){const {error}=await sb.from('chore_completions').upsert({family_id:state.family.id,chore_id:choreId,child_id:childId,due_date:today(),status:'pending',submitted_at:new Date().toISOString()},{onConflict:'chore_id,child_id,due_date'});if(error)return toast(errText(error));toast('Job claimed — waiting for parent');await loadData();state.view='kid';state.kidId=childId;state.kidTab='jobs'}
+function kidProgress(c){const streak=state.streaks.find(s=>s.child_id===c.id);const badges=state.badges.filter(b=>b.child_id===c.id);const recent=state.ledger.filter(t=>t.child_id===c.id).slice(0,10);return `<div class="section-head"><h2>Progress</h2></div><div class="grid cols-2"><div class="card stat"><span class="small muted">Current streak</span><b>🔥 ${streak?.current_daily||0} days</b></div><div class="card stat"><span class="small muted">Best streak</span><b>${streak?.longest_daily||0} days</b></div></div><div class="section-head"><h2>Badges</h2></div><div class="card">${badges.length?badges.map(b=>`<div class="row" style="padding:9px 0"><span style="font-size:24px">🏅</span><b>${esc(b.badge_name)}</b></div>`).join(''):`<div class="empty">Complete chores to earn badges.</div>`}</div><div class="section-head"><h2>Recent activity</h2></div><div class="card">${recent.length?recent.map(t=>`<div class="row between" style="padding:9px 0;border-bottom:1px solid var(--line)"><span>${esc(t.reason)}</span><b class="${Number(t.amount)>=0?'ledger-pos':'ledger-neg'}">${Number(t.amount)>=0?'+':''}${fmt(c,t.amount)}</b></div>`).join(''):`<div class="empty">No activity yet.</div>`}</div>`}
+
+function parentPin(openTab){modal(`<h2>Parent Mode</h2><p>Enter the family Parent PIN.</p><label style="display:block;margin-top:16px">Parent PIN<input id="parentPinInput" class="input pin" inputmode="numeric" maxlength="8" type="password"></label><button class="primary" style="width:100%;margin-top:14px" onclick="verifyParent('${openTab||'home'}')">Unlock</button>`);setTimeout(()=>$('parentPinInput')?.focus(),100)}
+async function verifyParent(tab){const pin=$('parentPinInput').value.trim();const {data,error}=await sb.rpc('verify_parent_pin',{target_family:state.family.id,candidate_pin:pin});if(error)return toast(errText(error));if(!data)return toast('Wrong Parent PIN');closeModal();state.parentUnlocked=true;state.view='parent';state.parentTab=tab||'home';render()}
+function exitParent(){state.parentUnlocked=false;state.view='family';render()}
+function parentTab(t){state.parentTab=t;render()}
+function parentView(){const tabs=[['home','Home','⌂'],['chores','Chores','✓'],['approvals','Approvals','✓'],['kids','Kids','☺'],['reports','Reports','▤'],['settings','Settings','⚙']];let content=state.parentTab==='home'?parentHome():state.parentTab==='chores'?parentChores():state.parentTab==='approvals'?parentApprovals():state.parentTab==='kids'?parentKids():state.parentTab==='reports'?parentReports():parentSettings();return `${topbar()}<main>${content}</main><div class="bottomnav"><div class="navwrap">${tabs.map(t=>`<button class="navitem ${state.parentTab===t[0]?'active':''}" onclick="parentTab('${t[0]}')"><span>${t[2]}</span>${t[1]}${t[0]==='approvals'&&pendingCount()?` (${pendingCount()})`:''}</button>`).join('')}</div></div>`}
+function parentHome(){const todayC=state.completions.filter(x=>x.due_date===today());const approved=todayC.filter(x=>x.status==='approved').length;const pending=todayC.filter(x=>x.status==='pending').length;return `<div class="row between"><div><h1>Parent Dashboard</h1><p>${esc(state.family.name)}</p></div><button class="primary" onclick="parentTab('approvals')">${pendingCount()} pending</button></div><div class="grid cols-4" style="margin-top:16px"><div class="card stat"><span class="small muted">Today's chores</span><b>${todayC.length}</b></div><div class="card stat"><span class="small muted">Approved</span><b>${approved}</b></div><div class="card stat"><span class="small muted">Waiting</span><b>${pending}</b></div><div class="card stat"><span class="small muted">Kids</span><b>${state.children.length}</b></div></div><div class="section-head"><h2>Balances</h2></div><div class="grid cols-3">${state.children.map(c=>`<div class="card"><div class="row"><div class="avatar">${esc(c.avatar||c.name[0])}</div><div><h3>${esc(c.name)}</h3><div class="small muted">Age ${c.age}</div></div></div><div class="big-balance" style="font-size:30px">${fmt(c,balance(c.id))}</div></div>`).join('')}</div>`}
+function parentApprovals(){const comps=state.completions.filter(x=>x.status==='pending');const reds=state.redemptions.filter(x=>x.status==='pending');return `<div class="row between"><div><h1>Approvals</h1><p>Rewards hit the ledger only after approval.</p></div></div><div class="section-head"><h2>Chores</h2></div>${comps.length?`<div class="grid">${comps.map(x=>{const c=child(x.child_id),ch=chore(x.chore_id);return `<div class="card"><div class="row between"><div><span class="tag warn">WAITING</span><h3 style="margin-top:8px">${esc(ch?.name||'Chore')}</h3><div class="small muted">${esc(c?.name||'Child')} ${Number(ch?.reward_amount||0)?`• +${fmt(c,ch.reward_amount)}`:''}</div></div><div class="row"><button class="secondary reject" onclick="rejectCompletion('${x.id}')">Reject</button><button class="primary success" onclick="approveCompletion('${x.id}')">Approve</button></div></div></div>`}).join('')}</div>`:`<div class="card empty">No chores waiting.</div>`}<div class="section-head"><h2>Tablet time</h2></div>${reds.length?`<div class="grid">${reds.map(r=>{const c=child(r.child_id);return `<div class="card"><div class="row between"><div><h3>${esc(c?.name||'Child')} • ${r.minutes} minutes</h3><div class="small muted">Current balance ${fmt(c,balance(r.child_id))}</div></div><div class="row"><button class="secondary reject" onclick="rejectRedemption('${r.id}')">Reject</button><button class="primary success" onclick="approveRedemption('${r.id}')">Approve</button></div></div></div>`}).join('')}</div>`:`<div class="card empty">No tablet requests waiting.</div>`}`}
+async function approveCompletion(id){const {error}=await sb.rpc('approve_chore_completion',{target_completion:id});if(error)return toast(errText(error));toast('Approved — ledger updated');await loadData();state.view='parent';state.parentUnlocked=true;state.parentTab='approvals'}
+async function rejectCompletion(id){const {error}=await sb.from('chore_completions').update({status:'todo',reviewed_at:new Date().toISOString(),reviewed_by:state.user.id}).eq('id',id);if(error)return toast(errText(error));toast('Sent back to To Do');await loadData();state.view='parent';state.parentUnlocked=true;state.parentTab='approvals'}
+async function approveRedemption(id){const {error}=await sb.rpc('approve_tablet_redemption',{target_redemption:id});if(error)return toast(errText(error));toast('Tablet time approved — balance deducted');await loadData();state.view='parent';state.parentUnlocked=true;state.parentTab='approvals'}
+async function rejectRedemption(id){const {error}=await sb.rpc('reject_tablet_redemption',{target_redemption:id});if(error)return toast(errText(error));toast('Request rejected');await loadData();state.view='parent';state.parentUnlocked=true;state.parentTab='approvals'}
+
+function parentKids(){return `<div class="row between"><div><h1>Kids</h1><p>Add children and manage their PINs.</p></div><button class="primary" onclick="addChildModal()">+ Add child</button></div><div class="grid cols-3" style="margin-top:15px">${state.children.map(c=>`<div class="card"><div class="row"><div class="avatar">${esc(c.avatar||c.name[0])}</div><div><h3>${esc(c.name)}</h3><div class="small muted">Age ${c.age} • ${c.reward_type==='money'?'Money':'Tablet minutes'}</div></div></div><div class="big-balance" style="font-size:30px">${fmt(c,balance(c.id))}</div><button class="secondary" style="width:100%" onclick="resetKidPin('${c.id}')">Reset PIN</button></div>`).join('')}</div>`}
+function addChildModal(){modal(`<h2>Add child</h2><div class="formgrid"><label>Name<input id="newChildName" class="input"></label><label>Age<input id="newChildAge" class="input" type="number" min="3" max="18" value="6"></label><label>Reward type<select id="newChildReward" class="input"><option value="minutes">Tablet minutes</option><option value="money">Money</option></select></label><label>4-digit PIN<input id="newChildPin" class="input pin" inputmode="numeric" maxlength="4" type="password"></label></div><button class="primary" style="width:100%;margin-top:14px" onclick="addChild()">Add child</button>`)}
+async function addChild(){const name=$('newChildName').value.trim(),age=Number($('newChildAge').value),reward=$('newChildReward').value,pin=$('newChildPin').value.trim();const {error}=await sb.rpc('create_child',{target_family:state.family.id,child_name:name,child_age:age,child_reward_type:reward,child_pin:pin,child_avatar:name?name[0].toUpperCase():null});if(error)return toast(errText(error));closeModal();toast('Child added');await loadData();state.view='parent';state.parentUnlocked=true;state.parentTab='kids'}
+function resetKidPin(id){const c=child(id);modal(`<h2>Reset ${esc(c.name)}'s PIN</h2><label style="display:block;margin-top:12px">New 4-digit PIN<input id="resetPin" class="input pin" inputmode="numeric" maxlength="4" type="password"></label><button class="primary" style="width:100%;margin-top:14px" onclick="saveKidPin('${id}')">Save PIN</button>`)}
+async function saveKidPin(id){const pin=$('resetPin').value.trim();const {error}=await sb.rpc('set_child_pin',{child:id,new_pin:pin});if(error)return toast(errText(error));closeModal();toast('PIN updated')}
+
+function parentChores(){const q=state.librarySearch.toLowerCase();const lib=state.library.filter(x=>!q||x.name.toLowerCase().includes(q)||x.category.toLowerCase().includes(q)).slice(0,40);return `<div class="row between"><div><h1>Chores</h1><p>Assign from the cloud chore library or make your own.</p></div><button class="primary" onclick="customChoreModal()">+ Custom chore</button></div><div class="section-head"><h2>Assigned</h2></div><div class="card">${state.chores.length?state.chores.map(ch=>{const names=state.assignments.filter(a=>a.chore_id===ch.id).map(a=>child(a.child_id)?.name).filter(Boolean).join(', ');return `<div class="task"><div><div class="task-title">${esc(ch.name)}</div><div class="small muted">${esc(names||'Unassigned')} • ${esc(ch.chore_type)} • ${esc(ch.schedule_text||'Daily')}</div></div><span class="tag ${ch.active?'good':'bad'}">${ch.active?'ACTIVE':'PAUSED'}</span></div>`}).join(''):`<div class="empty">No chores assigned yet.</div>`}</div><div class="section-head"><h2>Chore library</h2></div><div class="toolbar"><input class="search" placeholder="Search 200+ chores" value="${esc(state.librarySearch)}" oninput="setLibrarySearch(this.value)"></div><div class="library" style="margin-top:12px">${lib.map(x=>`<div class="libcard"><div class="row between"><span class="tag blue">${esc(x.category)}</span><span class="small muted">Age ${x.min_age}–${x.max_age}</span></div><h3 style="margin-top:10px">${esc(x.name)}</h3><div class="small muted" style="margin:6px 0 12px">${esc(x.suggested_frequency)} • ${esc(x.difficulty)}</div><button class="secondary" style="width:100%" onclick="assignLibrary(${x.id})">Assign</button></div>`).join('')}</div>`}
+function setLibrarySearch(v){state.librarySearch=v;render()}
+function assignLibrary(id){const item=state.library.find(x=>Number(x.id)===Number(id));if(!state.children.length)return toast('Add a child first');modal(`<h2>Assign ${esc(item.name)}</h2><label style="display:block">Child<select id="assignChild" class="input">${state.children.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}</select></label><label style="display:block;margin-top:12px">Type<select id="assignType" class="input"><option value="${esc(item.suggested_type)}">${esc(item.suggested_type)}</option><option value="responsibility">responsibility</option><option value="earned">earned</option><option value="bonus">bonus</option></select></label><label style="display:block;margin-top:12px">Reward amount<input id="assignReward" class="input" type="number" step="1" value="0"></label><button class="primary" style="width:100%;margin-top:14px" onclick="saveLibraryAssignment(${item.id})">Assign chore</button>`)}
+async function saveLibraryAssignment(id){const item=state.library.find(x=>Number(x.id)===Number(id)),childId=$('assignChild').value,type=$('assignType').value,reward=Number($('assignReward').value||0);const {data,error}=await sb.from('chores').insert({family_id:state.family.id,name:item.name,category:item.category,chore_type:type,schedule_text:type==='bonus'?'Bonus job':'Daily',reward_amount:reward,deduction_amount:0,approval_required:true,difficulty:item.difficulty,active:true}).select('id').single();if(error)return toast(errText(error));const {error:ae}=await sb.from('chore_assignments').insert({family_id:state.family.id,chore_id:data.id,child_id:childId});if(ae)return toast(errText(ae));closeModal();toast('Chore assigned');await loadData();state.view='parent';state.parentUnlocked=true;state.parentTab='chores'}
+function customChoreModal(){if(!state.children.length)return toast('Add a child first');modal(`<h2>Custom chore</h2><div class="formgrid"><label>Name<input id="customName" class="input"></label><label>Category<input id="customCategory" class="input" value="Helping Family"></label><label>Child<select id="customChild" class="input">${state.children.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}</select></label><label>Type<select id="customType" class="input"><option value="responsibility">Responsibility</option><option value="earned">Earned</option><option value="bonus">Bonus job</option></select></label><label>Reward<input id="customReward" class="input" type="number" value="0"></label><label>Deduction<input id="customDeduction" class="input" type="number" value="0"></label></div><button class="primary" style="width:100%;margin-top:14px" onclick="saveCustomChore()">Create chore</button>`)}
+async function saveCustomChore(){const name=$('customName').value.trim();if(!name)return toast('Enter a chore name');const type=$('customType').value;const {data,error}=await sb.from('chores').insert({family_id:state.family.id,name,category:$('customCategory').value.trim()||'Helping Family',chore_type:type,schedule_text:type==='bonus'?'Bonus job':'Daily',reward_amount:Number($('customReward').value||0),deduction_amount:Number($('customDeduction').value||0),approval_required:true,active:true}).select('id').single();if(error)return toast(errText(error));const {error:ae}=await sb.from('chore_assignments').insert({family_id:state.family.id,chore_id:data.id,child_id:$('customChild').value});if(ae)return toast(errText(ae));closeModal();toast('Chore created');await loadData();state.view='parent';state.parentUnlocked=true;state.parentTab='chores'}
+
+function parentReports(){return `<h1>Reports</h1><p>The ledger is the source of truth for balances.</p><div class="section-head"><h2>Recent ledger activity</h2></div><div class="card tablewrap"><table class="table"><thead><tr><th>Date</th><th>Child</th><th>Reason</th><th>Type</th><th>Amount</th></tr></thead><tbody>${state.ledger.map(t=>{const c=child(t.child_id);return `<tr><td>${new Date(t.created_at).toLocaleDateString()}</td><td>${esc(c?.name||'')}</td><td>${esc(t.reason)}</td><td>${esc(t.transaction_type)}</td><td class="${Number(t.amount)>=0?'ledger-pos':'ledger-neg'}">${Number(t.amount)>=0?'+':''}${fmt(c,t.amount)}</td></tr>`}).join('')}</tbody></table></div>`}
+function parentSettings(){const s=state.settings||{};return `<h1>Settings</h1><p>Family defaults and security.</p><div class="grid cols-2" style="margin-top:16px"><div class="card"><h3>Tablet time</h3><label style="display:block;margin-top:12px">Daily maximum<input id="setLimit" class="input" type="number" value="${s.tablet_daily_limit??60}"></label><label style="display:block;margin-top:12px">Minimum redemption<input id="setMin" class="input" type="number" value="${s.tablet_min_redemption??15}"></label></div><div class="card"><h3>Parent PIN</h3><p style="margin:8px 0 12px">Change the PIN used to unlock Parent Mode.</p><input id="newParentPin" class="input pin" inputmode="numeric" maxlength="8" type="password" placeholder="New PIN"><button class="secondary" style="width:100%;margin-top:10px" onclick="changeParentPin()">Change PIN</button></div></div><button class="primary" style="margin-top:14px" onclick="saveSettings()">Save settings</button>`}
+async function saveSettings(){const {error}=await sb.from('family_settings').update({tablet_daily_limit:Number($('setLimit').value||60),tablet_min_redemption:Number($('setMin').value||15),updated_at:new Date().toISOString()}).eq('family_id',state.family.id);if(error)return toast(errText(error));toast('Settings saved');await loadData();state.view='parent';state.parentUnlocked=true;state.parentTab='settings'}
+async function changeParentPin(){const pin=$('newParentPin').value.trim();const {error}=await sb.rpc('set_parent_pin',{target_family:state.family.id,new_pin:pin});if(error)return toast(errText(error));toast('Parent PIN changed');$('newParentPin').value=''}
+
+function render(){const root=$('app');if(state.loading){root.innerHTML='<div class="spinner"></div>';return}if(!state.session){root.innerHTML=loginView();return}if(!state.family){root.innerHTML=onboardingView();return}root.innerHTML=state.view==='kid'&&state.kidId?kidView():state.view==='parent'&&state.parentUnlocked?parentView():familyView()}
+Object.assign(window,{signIn,signUp,signOut,createFamily,closeModal,kidPin,verifyKid,exitKid,kidTab,markDone,requestMinutes,claimBonus,parentPin,verifyParent,exitParent,parentTab,approveCompletion,rejectCompletion,approveRedemption,rejectRedemption,addChildModal,addChild,resetKidPin,saveKidPin,setLibrarySearch,assignLibrary,saveLibraryAssignment,customChoreModal,saveCustomChore,saveSettings,changeParentPin});
+if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
+init();
 </script>
 </body>
 </html>
